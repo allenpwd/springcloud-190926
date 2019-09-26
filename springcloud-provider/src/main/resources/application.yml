@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: helloservice
+server:
+  port: 8001
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: helloservice-8001
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka/
