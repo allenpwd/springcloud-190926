@@ -7,3 +7,6 @@ eureka:
     service-url:
       defaultZone: http://localhost:7001/eureka/
 
+helloservice:
+  ribbon:
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule #自定义ribbon的规则，默认轮询,helloservice是应用名，区分大小写

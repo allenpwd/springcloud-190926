@@ -6,7 +6,8 @@ server:
 eureka:
   instance:
     prefer-ip-address: true
-    instance-id: helloservice-8001
+    instance-id: ${spring.application.name}-${server.port}
   client:
     service-url:
       defaultZone: http://localhost:7001/eureka/
+
