@@ -1,5 +1,7 @@
 package pwd.allen.config;
 
+import com.netflix.loadbalancer.IRule;
+import com.netflix.loadbalancer.RandomRule;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -16,5 +18,15 @@ public class MyConfig {
     @LoadBalanced
     public RestTemplate restTemplate() {
         return new RestTemplate();
+    }
+
+
+    /**
+     * 覆盖ribbon默认的负载均衡规则
+     * @return
+     */
+    @Bean
+    public IRule rule() {
+        return new RandomRule();
     }
 }
