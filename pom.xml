@@ -59,6 +59,7 @@
         <module>springcloud-provider</module>
         <module>springcloud-eureka</module>
         <module>springcloud-customer</module>
+        <module>springcloud-config</module>
     </modules>
 
 </project>
