@@ -20,13 +20,4 @@ public class MyConfig {
         return new RestTemplate();
     }
 
-
-    /**
-     * 覆盖ribbon默认的负载均衡规则
-     * @return
-     */
-    @Bean
-    public IRule rule() {
-        return new RandomRule();
-    }
 }

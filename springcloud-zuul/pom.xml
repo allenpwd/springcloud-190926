@@ -9,32 +9,24 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>springcloud-customer</artifactId>
+    <artifactId>springcloud-zuul</artifactId>
 
     <dependencies>
         <dependency>
-            <groupId>pwd.allen</groupId>
-            <artifactId>springcloud-api</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-eureka</artifactId>
+        </dependency>
+
+        <!--zuul做路由和过滤-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zuul</artifactId>
         </dependency>
 
         <!-- actuator监控信息完善 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-
-        <!-- 引入hystrix断路器
-            feign使用服务降级fallbackFactory时没引入该jar也可以正常运行
-            但是如果要用hystrix-databoard的实时服务调用监控，则要引该jar
-         -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-hystrix</artifactId>
         </dependency>
     </dependencies>
 

@@ -1,8 +1,8 @@
+server:
+  port: 7003
 spring:
   application:
-    name: helloservice
-server:
-  port: 8001
+    name: zuul-gateway
 eureka:
   instance:
     prefer-ip-address: true
@@ -12,7 +12,7 @@ eureka:
       defaultZone: http://localhost:7001/eureka/
 
 info:
-  app: provider
+  app: zuul
   log: info信息
   application-name: ${spring.application.name}
   server.port: ${server.port}
