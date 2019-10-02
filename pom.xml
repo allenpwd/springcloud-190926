@@ -73,6 +73,7 @@
         <module>springcloud-config</module>
         <module>springcloud-zuul</module>
         <module>springcloud-hystrix-dashboard</module>
+        <module>springcloud-config-client</module>
     </modules>
 
 </project>

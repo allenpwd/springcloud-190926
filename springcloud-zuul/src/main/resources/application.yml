@@ -16,3 +16,11 @@ info:
   log: info信息
   application-name: ${spring.application.name}
   server.port: ${server.port}
+
+zuul:
+  routes: #设置路由映射
+    hello.serviceId: helloservice
+    hello.path: /myHello/**
+  ignored-services: helloservice #不设置的话使用用户名也可以访问，如果要禁止所有应用名的使用可以设置为"*"
+  prefix: /pwd #设置公共前缀，注意前面要加/
+

@@ -1,0 +1,11 @@
+#bootstrap.yml（bootstrap.properties）用来程序引导时执行，应用于更加早期配置信息读取，如可以使用来配置application.yml中使用到参数
+#bootstrap.yml 先于 application.yml 加载
+#应该在 bootstrap.yml 里面指定 spring.application.name 和 spring.cloud.config.server.git.uri和一些加密/解密的信息
+#因为这些信息是需要提早的或引导的配置
+spring:
+  cloud:
+    config:
+      name: myConfig #需要从github上读取的资源名称，不用加上yml等资源后缀
+      profile: dev #本次访问的配置项
+      label: master
+      uri: http://localhost:7004 #springcloud config服务端地址

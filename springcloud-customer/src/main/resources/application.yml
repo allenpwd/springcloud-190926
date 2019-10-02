@@ -2,10 +2,12 @@ server:
   port: 80
 eureka:
   client:
-    register-with-eureka: false
+    register-with-eureka: true
     fetch-registry: true
     service-url:
       defaultZone: http://localhost:7001/eureka/
+  instance:
+    instance-id: ${spring.application.name}-${server.port}
 
 #helloservice:
 #  ribbon:
@@ -15,9 +17,14 @@ feign:
   hystrix:
     enabled: true #开启服务熔断器
 
+
 #引入spring-boot-starter-actuator后，注册到eureka的服务可以在euraka页面跳转到info页面
 info:
   app: costomer
   log: info信息
   application-name: ${spring.application.name}
   server.port: ${server.port}
+
+spring:
+  application:
+    name: hellocustomer

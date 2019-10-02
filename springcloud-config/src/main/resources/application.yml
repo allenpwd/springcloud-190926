@@ -1,4 +1,5 @@
-
+server:
+  port: 7004
 
 spring:
   application:
@@ -7,6 +8,4 @@ spring:
     config:
       server:
         git:
-          uri: git@gitee.com:allenpwd/springCloudConfig.git
-server:
-  port: 3344
+          uri: git@github.com:allenpwd/springCloudConfig.git #ssh方式制定git地址，gitee报错：com.jcraft.jsch.JSchException: reject HostKey: gitee.com原因不明
