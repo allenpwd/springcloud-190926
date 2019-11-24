@@ -12,6 +12,8 @@ import org.springframework.web.client.RestTemplate;
 import pwd.allen.service.HelloService;
 
 /**
+ * 演示 三种调用服务的方式
+ *
  * @author 门那粒沙
  * @create 2019-09-26 22:46
  **/
