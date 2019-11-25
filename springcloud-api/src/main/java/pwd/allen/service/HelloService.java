@@ -10,7 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
  *
  * 可以使用Feign自带的注解或者JAX-RS注解，Feign还支持Spring MVC注解（@RequestParam @PathVariable @RequestHeader的value不可省略，因为Feign不会像Spring MVC那样以参数名作为默认值）
  *
- * fallbackFactory指定服务降级时调用的对应类
+ * fallbackFactory指定服务降级时调用的对应类的工厂类
+ * fallback指定服务降级时调用的对应类
  *
  * @author 门那粒沙
  * @create 2019-09-26 21:29

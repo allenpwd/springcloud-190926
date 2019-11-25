@@ -2,8 +2,10 @@ package pwd.allen;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
+import org.springframework.cloud.netflix.hystrix.EnableHystrix;
 import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import pwd.allen.config.MyRuleConfig;
 
@@ -16,6 +18,7 @@ import pwd.allen.config.MyRuleConfig;
 @EnableFeignClients(basePackages = {"pwd.allen.service"})
 //为指定应用自定义ribbon配置类，在配置类中声明IRule实现类，配置类不能被ComponentScan到，否则会覆盖所有的
 @RibbonClient(name="helloservice", configuration=MyRuleConfig.class)
+@EnableCircuitBreaker   //开启断路器，@EnableHystrix注解里面继承了这个注解
 public class CustomerMain {
     public static void main(String[] args) {
         SpringApplication.run(CustomerMain.class, args);

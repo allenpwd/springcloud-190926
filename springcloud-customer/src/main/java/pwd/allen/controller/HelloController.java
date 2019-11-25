@@ -1,5 +1,6 @@
 package pwd.allen.controller;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -31,6 +32,9 @@ public class HelloController {
 
     /**
      * 使用feign 负载均衡
+     *
+     * Feign 是自带熔断器的，但默认是关闭的，打开方式：feign.hystrix.enabled=true
+     *
      * @param name
      * @return
      */
@@ -58,10 +62,20 @@ public class HelloController {
      * @param name
      * @return
      */
+    @HystrixCommand(fallbackMethod = "helloFallback")
     @GetMapping("/helloLB/{name}")
     public String helloLB(@PathVariable("name") String name) {
         String url = String.format("http://HELLOSERVICE/hello/%s", name);
         return restTemplate.getForObject(url, String.class);
+    }
+
+    /**
+     * fallback方法要和被降级的方法有相同参数，否则：fallback method wasn't found
+     * @param name
+     * @return
+     */
+    public String helloFallback(String name) {
+        return "fallback for hello, name=" + name;
     }
 
 }
