@@ -1,0 +1,18 @@
+spring:
+  profiles:
+    active:
+      - dev
+---
+info:
+  pwd:
+    test: this is dev
+spring:
+  profiles: dev
+server:
+  port: 3355
+---
+spring:
+  profiles: test
+info:
+  pwd:
+    test: this is test

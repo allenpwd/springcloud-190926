@@ -6,12 +6,14 @@ import org.springframework.cloud.config.server.EnableConfigServer;
 
 /**
  * 集中化配置
- * 访问配置url方式：label可以看做git分支，比如master
- *  1）/{application}/{profile}/{label}
- *  2）/{application}-{profile}.yml
- *  3）{label}/{application}-{profile}.yml
- *  2）/{application}-{profile}.properties
- *  2）{label}/{application}-{profile}.properties
+ *
+ *
+ * 启动之后访问配置url方式：label可以看做git分支，比如master
+ *  http://ip:port/{application}/{profile}[/{label}]
+ *  http://ip:port/{application}-{profile}.yml
+ *  http://ip:port/{label}/{application}-{profile}.yml
+ *  http://ip:port/{application}-{profile}.properties
+ *  http://ip:port/{label}/{application}-{profile}.properties
  *
  * @author lenovo
  * @create 2019-09-30 11:37

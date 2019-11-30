@@ -16,7 +16,7 @@ import pwd.allen.config.MyRuleConfig;
 @EnableEurekaClient
 @SpringBootApplication
 @EnableFeignClients(basePackages = {"pwd.allen.service"})
-//为指定应用自定义ribbon配置类，在配置类中声明IRule实现类，配置类不能被ComponentScan到，否则会覆盖所有的
+//为helloservice应用自定义ribbon配置类，在配置类中声明IRule实现类；配置类不能被ComponentScan到，否则会覆盖所有的
 @RibbonClient(name="helloservice", configuration=MyRuleConfig.class)
 @EnableCircuitBreaker   //开启断路器，@EnableHystrix注解里面继承了这个注解
 public class CustomerMain {

@@ -15,11 +15,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 配置网关路由失败时的回调
+ *
  * @author 门那粒沙
  * @create 2019-11-25 22:09
- * 路由 hello-spring-cloud-web-admin-feign 失败时的回调
- * <p>Title: WebAdminFeignFallbackProvider</p>
- * <p>Description: </p>
  *
  */
 @Component
