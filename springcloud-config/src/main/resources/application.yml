@@ -8,6 +8,6 @@ spring:
     config:
       server:
         git:
-          uri: git@gitee.com:allenpwd/springCloudConfig.git #ssh方式指定git地址
-          search-paths: /  #配置仓库路径（存放配置文件的目录）
+          uri: git@gitee.com:allenpwd/springcloud-190926.git #ssh方式指定git地址
+          search-paths: config  #配置仓库路径（存放配置文件的目录）
           strict-host-key-checking: true #之前gitee报错：com.jcraft.jsch.JSchException: reject HostKey: gitee.com原因不明，后面突然不会了
