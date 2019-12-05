@@ -1,5 +1,6 @@
 server:
   port: 7004
+  tomcat:
 
 spring:
   application:
@@ -11,3 +12,10 @@ spring:
           uri: git@gitee.com:allenpwd/springcloud-190926.git #ssh方式指定git地址
           search-paths: config  #配置仓库路径（存放配置文件的目录）
           strict-host-key-checking: true #之前gitee报错：com.jcraft.jsch.JSchException: reject HostKey: gitee.com原因不明，后面突然不会了
+  http:
+    encoding:
+      force: true   #加上后直接在页面访问配置中文不会乱码
+#      charset: UTF-8
+#      enabled: true
+  zipkin:     #链路追踪支持
+      base-url: http://localhost:9411

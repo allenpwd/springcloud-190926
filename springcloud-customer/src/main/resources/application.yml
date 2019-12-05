@@ -28,3 +28,5 @@ info:
 spring:
   application:
     name: hellocustomer
+  zipkin:     #链路追踪支持
+    base-url: http://localhost:9411
