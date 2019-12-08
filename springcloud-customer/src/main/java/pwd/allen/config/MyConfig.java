@@ -14,6 +14,10 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 public class MyConfig {
 
+    /**
+     * 配置注入 RestTemplate 的 Bean，并通过 @LoadBalanced 注解表明开启负载均衡功能
+     * @return
+     */
     @Bean
     @LoadBalanced
     public RestTemplate restTemplate() {

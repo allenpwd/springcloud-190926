@@ -1,6 +1,5 @@
 server:
   port: 7004
-  tomcat:
 
 spring:
   application:

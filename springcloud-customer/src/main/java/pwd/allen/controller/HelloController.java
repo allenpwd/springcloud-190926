@@ -49,6 +49,7 @@ public class HelloController {
      * @param name
      * @return
      */
+    @HystrixCommand(fallbackMethod = "helloFallback")
     @GetMapping("/helloLBC/{name}")
     public String helloLBC(@PathVariable("name") String name) {
         RestTemplate restTemplate = new RestTemplate();

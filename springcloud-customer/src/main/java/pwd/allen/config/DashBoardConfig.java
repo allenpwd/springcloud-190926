@@ -13,8 +13,8 @@ import org.springframework.context.annotation.Configuration;
  * @author 门那粒沙
  * @create 2019-11-25 20:54
  **/
-//@Configuration
-public class DashBoardConfiguration {
+@Configuration
+public class DashBoardConfig {
 
     @Bean
     public ServletRegistrationBean getServlet() {
