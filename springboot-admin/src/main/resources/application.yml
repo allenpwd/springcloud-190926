@@ -1,14 +1,11 @@
+server:
+  port: 7005
 spring:
   application:
-    name: helloservice
+    name: springboot-admin
   zipkin:     #链路追踪支持
     base-url: http://localhost:9411
-  boot:
-      admin:
-        client:
-          url: http://localhost:7005
-server:
-  port: 8001
+
 eureka:
   instance:
     prefer-ip-address: true
@@ -18,7 +15,17 @@ eureka:
       defaultZone: http://localhost:7001/eureka/
 
 info:
-  app: provider
+  app: zuul
   log: info信息
   application-name: ${spring.application.name}
   server.port: ${server.port}
+
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        # 注意：["health", "info"] 但已无效了
+        include: health,info

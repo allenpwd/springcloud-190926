@@ -44,7 +44,8 @@ public class HelloController {
     }
 
     /**
-     * 使用 LoadBalancerClient 负载均衡
+     * ribbon
+     * 使用 LoadBalancerClient（RibbonAutoConfiguration自动配置） 负载均衡
      * 通过应用名（不区分大小写）获取host和port
      * @param name
      * @return
@@ -59,6 +60,7 @@ public class HelloController {
     }
 
     /**
+     * ribbon
      * 使用 标注了@LoadBalanced注解的 RestTemplate 负载均衡
      * @param name
      * @return

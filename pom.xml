@@ -22,6 +22,7 @@
         <spring-cloud.version>Finchley.RELEASE</spring-cloud.version>
         <!--<spring-cloud.version>Dalston.SR1</spring-cloud.version>-->
         <zipkin.version>2.10.1</zipkin.version>
+        <spring.boot.admin.version>2.0.0</spring.boot.admin.version>
     </properties>
 
     <dependencies>
@@ -59,6 +60,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
             <dependency>
                 <groupId>io.zipkin.java</groupId>
                 <artifactId>zipkin</artifactId>
@@ -73,6 +75,17 @@
                 <groupId>io.zipkin.java</groupId>
                 <artifactId>zipkin-autoconfigure-ui</artifactId>
                 <version>${zipkin.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-server</artifactId>
+                <version>${spring.boot.admin.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>de.codecentric</groupId>
+                <artifactId>spring-boot-admin-starter-client</artifactId>
+                <version>${spring.boot.admin.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -100,6 +113,7 @@
         <module>springcloud-hystrix-dashboard</module>
         <module>springcloud-config-client</module>
         <module>springcloud-zipkin</module>
+        <module>springboot-admin</module>
     </modules>
 
 </project>

@@ -1,7 +1,7 @@
 package pwd.allen.provider;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.cloud.netflix.zuul.filters.route.ZuulFallbackProvider;
+import org.springframework.cloud.netflix.zuul.filters.route.FallbackProvider;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,7 +22,7 @@ import java.util.Map;
  *
  */
 @Component
-public class WebAdminFeignFallbackProvider implements ZuulFallbackProvider {
+public class WebAdminFeignFallbackProvider implements FallbackProvider {
 
     @Override
     public String getRoute() {
@@ -35,7 +35,7 @@ public class WebAdminFeignFallbackProvider implements ZuulFallbackProvider {
      * @return
      */
     @Override
-    public ClientHttpResponse fallbackResponse() {
+    public ClientHttpResponse fallbackResponse(String route, Throwable cause) {
         return new ClientHttpResponse() {
             /**
              * 网关向 api 服务请求失败了，但是消费者客户端向网关发起的请求是成功的，

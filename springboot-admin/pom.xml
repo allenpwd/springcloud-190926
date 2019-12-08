@@ -9,12 +9,14 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>springcloud-zipkin</artifactId>
+    <artifactId>springboot-admin</artifactId>
 
     <dependencies>
+
+        <!-- 这里如果换成client启动报错：Unsatisfied dependency expressed through method 'httpClient' parameter 0 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
         </dependency>
 
         <!-- actuator监控信息完善 -->
@@ -23,28 +25,19 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
 
-        <!--链路追踪-->
+        <!-- 链路追踪支持 -->
         <dependency>
-            <groupId>io.zipkin.java</groupId>
-            <artifactId>zipkin</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.zipkin.java</groupId>
-            <artifactId>zipkin-server</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.zipkin.java</groupId>
-            <artifactId>zipkin-autoconfigure-ui</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
         </dependency>
 
-        <!--Spring Boot Admin Client服务监控客户端-->
         <dependency>
             <groupId>org.jolokia</groupId>
             <artifactId>jolokia-core</artifactId>
         </dependency>
         <dependency>
             <groupId>de.codecentric</groupId>
-            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <artifactId>spring-boot-admin-starter-server</artifactId>
         </dependency>
 
     </dependencies>
@@ -60,4 +53,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>

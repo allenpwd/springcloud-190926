@@ -13,6 +13,9 @@ import java.io.IOException;
 /**
  * Zuul 的服务过滤演示
  *
+ * 步骤：
+ *  继承ZuulFilter并加入到spring容器中即可
+ *
  * @author 门那粒沙
  * @create 2019-11-30 12:24
  **/
@@ -64,6 +67,7 @@ public class MyZuulFilter extends ZuulFilter {
         logger.info("{} >>> {}", request.getMethod(), request.getRequestURL().toString());
         String token = request.getParameter("token");
         if (token == null) {
+            //没有token则返回提示
             logger.warn("Token is empty");
             context.setSendZuulResponse(false);
             context.setResponseStatusCode(401);
