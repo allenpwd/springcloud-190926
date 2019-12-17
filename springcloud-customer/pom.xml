@@ -18,12 +18,13 @@
             <version>${project.version}</version>
         </dependency>
 
+        <!--Eureka客户端 来 服务发现-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
-        <!--ribbon负载均衡客户端，spring-cloud-starter-netflix-eureka-client有依赖-->
+        <!--ribbon负载均衡客户端 来 服务消费，spring-cloud-starter-netflix-eureka-client有依赖-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>

@@ -11,8 +11,13 @@ server:
   port: 8001
 eureka:
   instance:
+    #使用Ip代替主机名作为标识
     prefer-ip-address: true
     instance-id: ${spring.application.name}-${server.port}
+    #服务续约任务的调用间隔时间，默认30秒
+    lease-renewal-interval-in-seconds: 30
+    #服务时效的时间，超过这个时间没有收到心跳就剔除服务，默认90秒
+#    lease-expiration-duration-in-seconds: 90
   client:
     service-url:
       defaultZone: http://localhost:7001/eureka/

@@ -3,9 +3,16 @@ server:
 eureka:
   instance:
     hostname: localhost
+    #服务时效的时间，超过这个时间没有收到心跳就剔除服务，默认90秒
+    lease-expiration-duration-in-seconds: 90
   client:
-    fetch-registry: false #false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
-    register-with-eureka: false #false表示不向注册中心注册自己
+    #false表示自己端就是注册中心，我的职责就是维护服务实例，并不需要去检索服务
+    fetch-registry: false
+    #false表示不向注册中心注册自己
+    register-with-eureka: false
+  server:
+    #本地调试的时候关闭自我保护机制，确保注册中心可以将不可用的实例剔除
+    enable-self-preservation: false
 spring:
   application:
     name: myeureka

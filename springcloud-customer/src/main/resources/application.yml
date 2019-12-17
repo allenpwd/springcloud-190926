@@ -1,13 +1,28 @@
 server:
   port: 80
+  servlet:
+    context-path: /
 eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
+      #指定默认zone（defaultZone）的注册中心（默认http://localhost:8761/eureka/），多个用逗号隔开
       defaultZone: http://localhost:7001/eureka/
+    #更新服务清单的间隔时间，默认30秒
+#    registry-fetch-interval-seconds: 30
+    #更新service-url的间隔时间，当与SpringCloudConfig结合时可以实现动态刷新，默认300秒
+#    eureka-service-url-poll-interval-seconds: 300
   instance:
     instance-id: ${spring.application.name}-${server.port}
+    #状态页URL，若设置了context-path这里也要改
+    health-check-url-path: ${server.servlet.context-path}actuator/health
+    #健康检查页URL，若设置了context-path这里也要改
+    status-page-url-path: ${server.servlet.context-path}actuator/info
+    #服务名，默认spring.application.name，没有则为unknown
+#    appname: hollshit
+    #主机名，没有则获取操作系统的主机名
+#    hostname: localhost
 
 #helloservice:
 #  ribbon:
@@ -20,10 +35,12 @@ feign:
 
 #引入spring-boot-starter-actuator后，注册到eureka的服务可以在euraka页面跳转到info页面
 info:
-  app: costomer
+  app: customer
   log: info信息
   application-name: ${spring.application.name}
   server.port: ${server.port}
+  spring-cloud-client-hostname: ${spring.cloud.client.hostname}
+  eureka.instance-hostname: ${eureka.instance.hostname}
 
 spring:
   application:

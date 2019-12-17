@@ -15,6 +15,8 @@ import pwd.allen.service.HelloService;
 /**
  * 演示 三种调用服务的方式
  *
+ * 从注册中心获取了所有服务清单，所以客户端可以根据自己的需要决定具体调用哪个实例
+ *
  * @author 门那粒沙
  * @create 2019-09-26 22:46
  **/
