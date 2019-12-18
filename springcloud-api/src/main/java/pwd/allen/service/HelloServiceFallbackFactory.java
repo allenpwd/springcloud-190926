@@ -2,6 +2,9 @@ package pwd.allen.service;
 
 import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
+import pwd.allen.entity.User;
+
+import java.util.Map;
 
 /**
  * 为整个服务接口指定服务降级的调用类，服务降级时在客户端使用的，即服务调用方
@@ -20,6 +23,13 @@ public class HelloServiceFallbackFactory implements FallbackFactory<HelloService
             @Override
             public String sayHello(String name) {
                 return "fallback from " + this.getClass().getName();
+            }
+
+            @Override
+            public User getUser(Map map_param) {
+                User user = new User();
+                user.setName("fallback：缺省");
+                return user;
             }
         };
     }

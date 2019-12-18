@@ -4,8 +4,13 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import pwd.allen.entity.User;
 import pwd.allen.service.HelloService;
+
+import java.util.Date;
+import java.util.Map;
 
 /**
  * @author 门那粒沙
@@ -45,5 +50,18 @@ public class HelloServiceProvider implements HelloService {
     @GetMapping("/other/{name}")
     public String other(@PathVariable String name) {
         return "this is another interface not from HelloService! your name is :" + name;
+    }
+
+    @Override
+    public User getUser(@RequestBody Map map_param) {
+        User user = new User();
+        user.setAge(18);
+        if (map_param.containsKey("name")) {
+            user.setName((String)map_param.get("name"));
+        } else {
+            user.setName("奥利给");
+        }
+        user.setCreateDate(new Date());
+        return user;
     }
 }

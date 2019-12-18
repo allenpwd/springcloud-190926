@@ -6,11 +6,19 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
+import pwd.allen.entity.User;
 import pwd.allen.service.HelloService;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 演示 三种调用服务的方式
@@ -23,6 +31,7 @@ import pwd.allen.service.HelloService;
 @RestController
 public class HelloController {
 
+    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
     private HelloService helloService;
 
@@ -41,24 +50,47 @@ public class HelloController {
      * @return
      */
     @GetMapping("/helloFeign/{name}")
-    public String helloFeign(@PathVariable("name") String name) {
-        return helloService.sayHello(name);
+    public Map<String, Object> helloFeign(@PathVariable("name") String name) {
+
+        HashMap<String, Object> map_rel = new HashMap<>();
+        map_rel.put("hello", helloService.sayHello(name));
+        Map<String, Object> map_param = new HashMap<>();
+        map_param.put("name", name);
+        map_rel.put("hello/getUser", helloService.getUser(map_param));
+
+        return map_rel;
     }
 
     /**
      * ribbon
      * 使用 LoadBalancerClient（RibbonAutoConfiguration自动配置） 负载均衡
-     * 通过应用名（不区分大小写）获取host和port
+     * 特点：通过应用名（不区分大小写）获取host和port
      * @param name
      * @return
      */
     @HystrixCommand(fallbackMethod = "helloFallback")
     @GetMapping("/helloLBC/{name}")
-    public String helloLBC(@PathVariable("name") String name) {
+    public Map<String, Object> helloLBC(@PathVariable("name") String name) {
+
+        HashMap<String, Object> map_rel = new HashMap<>();
         RestTemplate restTemplate = new RestTemplate();
         ServiceInstance helloservice = loadBalancerClient.choose("helloservice");
+
+        //region 调用get请求
         String url = String.format("http://%s:%s/hello/%s", helloservice.getHost(), helloservice.getPort(), name);
-        return restTemplate.getForObject(url, String.class);
+        String rel_get = restTemplate.getForObject(url, String.class);
+        map_rel.put("hello", rel_get);
+        //endregion
+
+        //region 调用post请求
+        url = String.format("http://%s:%s/hello/getUser", helloservice.getHost(), helloservice.getPort(), name);
+        User user_param = new User();
+        user_param.setName(name);
+        User user_rel = restTemplate.postForObject(url, user_param, User.class);
+        map_rel.put("hello/getUser", user_rel);
+        //endregion
+
+        return map_rel;
     }
 
     /**
@@ -69,9 +101,34 @@ public class HelloController {
      */
     @HystrixCommand(fallbackMethod = "helloFallback")
     @GetMapping("/helloLB/{name}")
-    public String helloLB(@PathVariable("name") String name) {
-        String url = String.format("http://HELLOSERVICE/hello/%s", name);
-        return restTemplate.getForObject(url, String.class);
+    public Map<String, Object> helloLB(@PathVariable("name") String name) {
+
+        HashMap<String, Object> map_rel = new HashMap<>();
+
+        //region 调用get请求
+        //{1}占位符会被替换成第一个参数
+        String url = "http://HELLOSERVICE/hello/{1}";
+        String rel = null;
+        //方法一
+//        ResponseEntity<String> entity = restTemplate.getForEntity(url, String.class, name);
+//        System.out.println(String.format("statusCode=%s", entity.getStatusCode()));
+//        rel = entity.getBody();
+        //方法二
+//        rel = restTemplate.getForObject(url, String.class, name);
+        //方法三
+        UriComponents uriComponents = UriComponentsBuilder.fromUriString(url).buildAndExpand(name).encode();
+        rel = restTemplate.getForObject(uriComponents.toUri(), String.class);
+        map_rel.put("hello", rel);
+        //endregion
+
+        //region 调用post请求
+        User user_param = new User();
+        user_param.setName(name);
+        User user_rel = restTemplate.postForObject("http://HELLOSERVICE/hello/getUser", user_param, User.class);
+        map_rel.put("hello/getUser", user_rel);
+        //endregion
+
+        return map_rel;
     }
 
     /**
@@ -79,8 +136,10 @@ public class HelloController {
      * @param name
      * @return
      */
-    public String helloFallback(String name) {
-        return "fallback for hello, name=" + name;
+    public Map<String, Object> helloFallback(String name) {
+        Map<String, Object> map_rel = new HashMap<>();
+        map_rel.put("fallback", "name=" + name);
+        return map_rel;
     }
 
 }

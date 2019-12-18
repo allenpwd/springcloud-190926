@@ -3,6 +3,12 @@ package pwd.allen.service;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import pwd.allen.entity.User;
+
+import java.util.Date;
+import java.util.Map;
 
 /**
  * 把微服务公共部分抽出来作为接口
@@ -21,4 +27,7 @@ public interface HelloService {
 
     @GetMapping("/hello/{name}")
     public String sayHello(@PathVariable("name") String name);
+
+    @PostMapping("/hello/getUser")
+    public User getUser(@RequestBody Map map_param);
 }
