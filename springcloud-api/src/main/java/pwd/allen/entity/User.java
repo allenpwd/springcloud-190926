@@ -10,8 +10,18 @@ import java.util.Date;
  * @create 2019-12-18 12:08
  **/
 @Data
-public class User implements Serializable {
+public class User implements Serializable, Cloneable {
     private String name;
     private Integer age;
     private Date createDate;
+
+    @Override
+    public User clone() {
+        try {
+            return (User)super.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
