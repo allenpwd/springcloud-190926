@@ -13,7 +13,7 @@ import org.springframework.web.client.RestTemplate;
 public class MyConfig {
 
     /**
-     * 配置注入 RestTemplate 的 Bean，并通过 @LoadBalanced 注解表明开启负载均衡功能
+     * 配置注入 RestTemplate 的 Bean，并通过 @LoadBalanced 注解通过拦截器给组件加上负载均衡功能
      *
      * 实现：给@LoadBalanced标注的RestTemplate添加LoadBalancerInterceptor拦截器
      * 当RestTemplate发起请求时会被拦截器的intercept方法拦截，方法里使用LoadBalancerClientd去根据服务名选择服务实例（{@link org.springframework.cloud.client.ServiceInstance}）并发起实际的请求。

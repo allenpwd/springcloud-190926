@@ -2,14 +2,10 @@ package pwd.allen.controller;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
@@ -17,6 +13,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import pwd.allen.entity.User;
 import pwd.allen.service.HelloService;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,13 +66,20 @@ public class HelloController {
      * @param name
      * @return
      */
-    @HystrixCommand(fallbackMethod = "helloFallback")
+    @HystrixCommand(fallbackMethod = "helloFallback") //他妈的一秒钟就熔断 怎么让人调试
     @GetMapping("/helloLBC/{name}")
     public Map<String, Object> helloLBC(@PathVariable("name") String name) {
 
         HashMap<String, Object> map_rel = new HashMap<>();
         RestTemplate restTemplate = new RestTemplate();
         ServiceInstance helloservice = loadBalancerClient.choose("helloservice");
+
+        try {
+            URI uri = loadBalancerClient.reconstructURI(helloservice, new URI("http://HELLOSERVICE/hello/"));
+            System.out.println(uri);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
 
         //region 调用get请求
         String url = String.format("http://%s:%s/hello/%s", helloservice.getHost(), helloservice.getPort(), name);
