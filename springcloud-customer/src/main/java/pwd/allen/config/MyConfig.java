@@ -23,6 +23,8 @@ public class MyConfig {
      * {@link org.springframework.cloud.client.loadbalancer.LoadBalancerInterceptor}
      * {@link org.springframework.cloud.netflix.ribbon.RibbonLoadBalancerClient}
      *
+     * 不懂：RestTemplate没加上@LoadBalanced注解时没法被Autowired注入到LoadBalancerAutoConfiguration
+     *
      * @return
      */
     @Bean
