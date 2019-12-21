@@ -26,7 +26,8 @@ eureka:
 
 #helloservice:
 #  ribbon:
-#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule #自定义ribbon的规则，默认轮询,helloservice是应用名，区分大小写
+#    #自定义ribbon的规则，默认轮询,helloservice是应用名，区分大小写
+#    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
 
 feign:
   hystrix:
@@ -51,3 +52,8 @@ spring:
       admin:
         client:
           url: http://localhost:7005
+  cloud:
+    loadbalancer:
+      retry:
+        #开启负载均衡的重试机制
+        enabled: true

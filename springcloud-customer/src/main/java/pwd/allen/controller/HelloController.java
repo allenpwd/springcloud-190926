@@ -6,6 +6,7 @@ import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
@@ -48,7 +49,9 @@ public class HelloController {
      * @return
      */
     @GetMapping("/helloFeign/{name}")
-    public Map<String, Object> helloFeign(@PathVariable("name") String name) {
+    public Map<String, Object> helloFeign(@PathVariable("name") String name, @RequestHeader("User-Agent") String userAgent) {
+
+        System.out.println("User-Agent:" + userAgent);
 
         HashMap<String, Object> map_rel = new HashMap<>();
         map_rel.put("hello", helloService.sayHello(name));
@@ -74,12 +77,13 @@ public class HelloController {
         RestTemplate restTemplate = new RestTemplate();
         ServiceInstance helloservice = loadBalancerClient.choose("helloservice");
 
-        try {
-            URI uri = loadBalancerClient.reconstructURI(helloservice, new URI("http://HELLOSERVICE/hello/"));
-            System.out.println(uri);
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+        //根据服务实例处理URI
+//        try {
+//            URI uri = loadBalancerClient.reconstructURI(helloservice, new URI("http://HELLOSERVICE/hello/"));
+//            System.out.println(uri);
+//        } catch (URISyntaxException e) {
+//            e.printStackTrace();
+//        }
 
         //region 调用get请求
         String url = String.format("http://%s:%s/hello/%s", helloservice.getHost(), helloservice.getPort(), name);
