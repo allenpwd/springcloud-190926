@@ -22,13 +22,13 @@ public class HelloServiceFallbackFactory implements FallbackFactory<HelloService
         return new HelloService() {
             @Override
             public String sayHello(String name) {
-                return "fallback from " + this.getClass().getName();
+                return "fallback from " + this.getClass().getName() + throwable.toString();
             }
 
             @Override
             public User getUser(Map map_param) {
                 User user = new User();
-                user.setName("fallback：缺省");
+                user.setName("fallback：" + throwable.toString());
                 return user;
             }
         };

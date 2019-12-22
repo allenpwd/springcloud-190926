@@ -38,15 +38,6 @@ public class HelloServiceProvider implements HelloService {
         return "hello!" + name + ", this is " + this.getClass().getName() + "-" + message;
     }
 
-    /**
-     * fallback方法要和被降级的方法有相同参数，否则：fallback method wasn't found
-     * @param name
-     * @return
-     */
-    public String sayHelloFallback(String name) {
-        return "this is callback for sayHello";
-    }
-
     @GetMapping("/other/{name}")
     public String other(@PathVariable String name) {
         return "this is another interface not from HelloService! your name is :" + name;
@@ -57,11 +48,22 @@ public class HelloServiceProvider implements HelloService {
         User user = new User();
         user.setAge(18);
         if (map_param.containsKey("name")) {
-            user.setName((String)map_param.get("name"));
+            String name = (String) map_param.get("name");
+            if ("error".equals(name)) throw new RuntimeException("测试下断路器");
+            user.setName(name);
         } else {
             user.setName("奥利给");
         }
         user.setCreateDate(new Date());
         return user;
+    }
+
+    /**
+     * fallback方法要和被降级的方法有相同参数，否则：fallback method wasn't found
+     * @param name
+     * @return
+     */
+    public String sayHelloFallback(String name, Throwable e) {
+        return String.format("this is callback for sayHello,the error is %s", e.toString());
     }
 }

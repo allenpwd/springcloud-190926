@@ -1,6 +1,7 @@
 package pwd.allen.controller;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.exception.HystrixBadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
@@ -105,10 +106,14 @@ public class HelloController {
     /**
      * ribbon
      * 使用 标注了@LoadBalanced注解的 RestTemplate 负载均衡
+     *
+     * @HystrixCommand熔断器配置
+     *  ignoreExceptions：指定要忽略的异常类型，即抛出这些错不触发服务降级
+     *
      * @param name
      * @return
      */
-    @HystrixCommand(fallbackMethod = "helloFallback")
+    @HystrixCommand(fallbackMethod = "helloFallback", ignoreExceptions = {HystrixBadRequestException.class})
     @GetMapping("/helloLB/{name}")
     public Map<String, Object> helloLB(@PathVariable("name") String name) {
 
@@ -143,11 +148,14 @@ public class HelloController {
     /**
      * fallback方法要和被降级的方法有相同参数，否则：fallback method wasn't found
      * @param name
+     * @e 获取触发服务降级的具体异常内容
      * @return
      */
-    public Map<String, Object> helloFallback(String name) {
+    public Map<String, Object> helloFallback(String name, Throwable e) {
+        e.printStackTrace();
         Map<String, Object> map_rel = new HashMap<>();
         map_rel.put("fallback", "name=" + name);
+        map_rel.put("error", e.toString());
         return map_rel;
     }
 
