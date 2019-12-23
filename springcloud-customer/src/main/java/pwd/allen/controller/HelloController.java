@@ -1,6 +1,7 @@
 package pwd.allen.controller;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.cache.annotation.CacheResult;
 import com.netflix.hystrix.exception.HystrixBadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
@@ -67,10 +68,18 @@ public class HelloController {
      * ribbon
      * 使用 LoadBalancerClient（RibbonAutoConfiguration自动配置） 负载均衡
      * 特点：通过应用名（不区分大小写）获取host和port
+     *
+     * @HystrixCommand指定熔断器配置
+     *  fallbackMethod：服务降级时回调的方法，需要参数（可以加多个Throwable参数接受错误信息）、返回值一致
+     *  commandKey：命令分组
+     *  groupKey：命令组名
+     *  threadPoolKey：线程池划分名
+     *
      * @param name
      * @return
      */
-    @HystrixCommand(fallbackMethod = "helloFallback") //他妈的一秒钟就熔断 怎么让人调试
+    @CacheResult//设置请求缓存，默认缓存key为所有参数即name
+    @HystrixCommand(fallbackMethod = "helloFallback", commandKey = "helloLBC", groupKey = "helloGroup", threadPoolKey = "helloLBC")
     @GetMapping("/helloLBC/{name}")
     public Map<String, Object> helloLBC(@PathVariable("name") String name) {
 
