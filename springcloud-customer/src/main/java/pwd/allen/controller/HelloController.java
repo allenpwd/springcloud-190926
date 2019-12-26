@@ -102,7 +102,7 @@ public class HelloController {
         //endregion
 
         //region 调用post请求
-        url = String.format("http://%s:%s/hello/getUser", helloservice.getHost(), helloservice.getPort(), name);
+        url = String.format("http://%s:%s/hello/getUser", helloservice.getHost(), helloservice.getPort());
         User user_param = new User();
         user_param.setName(name);
         User user_rel = restTemplate.postForObject(url, user_param, User.class);
@@ -151,11 +151,17 @@ public class HelloController {
         map_rel.put("hello/getUser", user_rel);
         //endregion
 
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         return map_rel;
     }
 
     /**
-     * fallback方法要和被降级的方法有相同参数，否则：fallback method wasn't found
+     * fallback方法要和被降级的方法有相同参数，否则报错：fallback method wasn't found
      * @param name
      * @e 获取触发服务降级的具体异常内容
      * @return
