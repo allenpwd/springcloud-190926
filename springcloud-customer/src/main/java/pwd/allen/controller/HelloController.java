@@ -16,8 +16,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import pwd.allen.entity.User;
 import pwd.allen.service.HelloService;
 
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 

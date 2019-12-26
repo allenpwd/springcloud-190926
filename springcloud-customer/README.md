@@ -26,6 +26,7 @@ Ribbon 是一个负载均衡客户端，可以很好的控制 http 和 tcp 的�
 
 
 ### 熔断器
+Hystrix是Netflix开源的一款容错框架。
 #### ribbon
 （1）添加依赖
 ```xml
@@ -45,3 +46,7 @@ feign:
     enabled: true
 ```
 （2）在@FeignClient的fallback属性指定对应接口的熔断类，或者fallbackFactory属性指定实现熔断的工厂类（实现FallbackFactory）
+
+
+### 参考链接
+https://blog.csdn.net/loushuiyifan/article/details/82702522
