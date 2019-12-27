@@ -38,6 +38,10 @@ public class HelloServiceProvider implements HelloService {
         return "hello!" + name + ", this is " + this.getClass().getName() + "-" + message;
     }
 
+    /**
+     * @param name
+     * @return
+     */
     @GetMapping("/other/{name}")
     public String other(@PathVariable String name) {
         return "this is another interface not from HelloService! your name is :" + name;

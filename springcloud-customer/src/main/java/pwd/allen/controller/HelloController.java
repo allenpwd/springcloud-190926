@@ -10,14 +10,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
+import pwd.allen.command.MyHystrixCommand;
 import pwd.allen.entity.User;
 import pwd.allen.service.HelloService;
+import rx.Observable;
+import rx.Subscriber;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 /**
  * 演示 三种调用服务的方式
@@ -49,7 +55,7 @@ public class HelloController {
      * @return
      */
     @GetMapping("/helloFeign/{name}")
-    public Map<String, Object> helloFeign(@PathVariable("name") String name, @RequestHeader("User-Agent") String userAgent) {
+    public Map helloFeign(@PathVariable("name") String name, @RequestHeader("User-Agent") String userAgent) {
 
         System.out.println("User-Agent:" + userAgent);
 
@@ -79,7 +85,7 @@ public class HelloController {
     @CacheResult//设置请求缓存，默认缓存key为所有参数即name
     @HystrixCommand(fallbackMethod = "helloFallback", commandKey = "helloLBC", groupKey = "helloGroup", threadPoolKey = "helloLBC")
     @GetMapping("/helloLBC/{name}")
-    public Map<String, Object> helloLBC(@PathVariable("name") String name) {
+    public Map helloLBC(@PathVariable("name") String name) {
 
         HashMap<String, Object> map_rel = new HashMap<>();
         RestTemplate restTemplate = new RestTemplate();
@@ -122,7 +128,7 @@ public class HelloController {
      */
     @HystrixCommand(fallbackMethod = "helloFallback", ignoreExceptions = {HystrixBadRequestException.class})
     @GetMapping("/helloLB/{name}")
-    public Map<String, Object> helloLB(@PathVariable("name") String name) {
+    public Map helloLB(@PathVariable("name") String name) {
 
         HashMap<String, Object> map_rel = new HashMap<>();
 
@@ -149,13 +155,57 @@ public class HelloController {
         map_rel.put("hello/getUser", user_rel);
         //endregion
 
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         return map_rel;
+    }
+
+
+    /**
+     * 注解方式使用HystrixObservableCommand实现命令封装
+     * 支持请求多次，返回的是结果集合
+     * 其中一个请求出错只会影响请求本身的返回结果和后面的请求，前面已请求成功的结果不会受到影响
+     *
+     * 这个方式已被标记为废弃，所以不推荐
+     *
+     * @param name
+     * @return
+     */
+    @HystrixCommand(fallbackMethod = "helloFallback")
+    @GetMapping("/helloLB2/{name}")
+    public Observable<Map> helloLB2(@PathVariable("name") String name) {
+
+        return Observable.create(new Observable.OnSubscribe<Map>() {
+            @Override
+            public void call(Subscriber<? super Map> subscriber) {
+                try {
+                    if (!subscriber.isUnsubscribed()) {
+                        HashMap<String, Object> map_rel = new HashMap<>();
+
+                        String url = "http://HELLOSERVICE/hello/{1}";
+                        User user_param = new User();
+                        user_param.setName(name);
+                        User user_rel = restTemplate.postForObject("http://HELLOSERVICE/hello/getUser", user_param, User.class);
+                        map_rel.put("user", user_rel);
+                        subscriber.onNext(map_rel);
+
+                        //测试下第二个调用出错的情况，结果：第一个结果照常返回，第二个返回服务降级的结果
+                        user_param.setName("error");
+                        user_rel = restTemplate.postForObject("http://HELLOSERVICE/hello/getUser", user_param, User.class);
+                        map_rel.put("user", user_rel);
+                        subscriber.onNext(map_rel);
+
+                        //因为前面报错，所以这个不会执行和返回
+                        user_param.setName(name + "2");
+                        user_rel = restTemplate.postForObject("http://HELLOSERVICE/hello/getUser", user_param, User.class);
+                        map_rel.put("user", user_rel);
+                        subscriber.onNext(map_rel);
+
+                        subscriber.onCompleted();
+                    }
+                } catch (RestClientException e) {
+                    subscriber.onError(e);
+                }
+            }
+        });
     }
 
     /**
@@ -164,12 +214,47 @@ public class HelloController {
      * @e 获取触发服务降级的具体异常内容
      * @return
      */
-    public Map<String, Object> helloFallback(String name, Throwable e) {
+    public Map helloFallback(String name, Throwable e) {
         e.printStackTrace();
         Map<String, Object> map_rel = new HashMap<>();
         map_rel.put("fallback", "name=" + name);
         map_rel.put("error", e.toString());
         return map_rel;
+    }
+
+
+    /**
+     * 断路器的另一种方式：实现HystrixCommand接口
+     *
+     * 没有注解方式简洁，不推荐
+     * @param name
+     * @return
+     */
+    @GetMapping("/other/{name}")
+    public String other(@PathVariable String name) {
+        String rel = null;
+        MyHystrixCommand command = new MyHystrixCommand(restTemplate, name);
+
+        //同步执行
+        rel = command.execute();
+
+        //异步执行
+//        Future<String> queue = command.queue();
+//        try {
+//            rel = queue.get();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        } catch (ExecutionException e) {
+//            e.printStackTrace();
+//        }
+
+        //返回Hot observable，命令会立刻执行，observable每次被订阅时会重放它的行为
+        Observable<String> observable_hot = command.observe();
+
+        //返回Cold observable，命令不会立刻执行，只有所有订阅者都订阅它后才执行
+        Observable<String> observable_cold = command.toObservable();
+
+        return rel;
     }
 
 }
