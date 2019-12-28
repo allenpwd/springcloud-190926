@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * 打开hystrix.stream
+ * 开启单个实例的监控断点（hystrix.stream）
  *
  * @author 门那粒沙
  * @create 2019-11-25 20:54

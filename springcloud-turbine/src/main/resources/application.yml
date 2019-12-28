@@ -1,0 +1,28 @@
+server:
+  port: 7006
+
+eureka:
+  client:
+    service-url:
+      #指定默认zone（defaultZone）的注册中心（默认http://localhost:8761/eureka/），多个用逗号隔开
+      defaultZone: http://localhost:7001/eureka/
+turbine:
+  #需要监控信息的服务名
+  app-config: HELLOCUSTOMER
+  #集群名
+  cluster-name-expression: default
+  #同一主机上的服务通过主机名和端口号的组合来区分
+  combine-host-port: true
+
+#引入spring-boot-starter-actuator后，注册到eureka的服务可以在euraka页面跳转到info页面
+info:
+  app: turbine
+  log: info信息
+  application-name: ${spring.application.name}
+  server.port: ${server.port}
+  spring-cloud-client-hostname: ${spring.cloud.client.hostname}
+  eureka.instance-hostname: ${eureka.instance.hostname}
+
+spring:
+  application:
+    name: turbine

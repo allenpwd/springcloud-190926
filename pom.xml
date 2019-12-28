@@ -114,6 +114,7 @@
         <module>springcloud-config-client</module>
         <module>springcloud-zipkin</module>
         <module>springboot-admin</module>
+        <module>springcloud-turbine</module>
     </modules>
 
 </project>
