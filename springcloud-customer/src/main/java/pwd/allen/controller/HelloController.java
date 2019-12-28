@@ -1,8 +1,8 @@
 package pwd.allen.controller;
 
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.ObservableExecutionMode;
 import com.netflix.hystrix.contrib.javanica.cache.annotation.CacheResult;
-import com.netflix.hystrix.exception.HystrixBadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
@@ -15,15 +15,17 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import pwd.allen.command.MyHystrixCommand;
+import pwd.allen.command.MyHystrixObservableCommand;
 import pwd.allen.entity.User;
 import pwd.allen.service.HelloService;
 import rx.Observable;
+import rx.Observer;
 import rx.Subscriber;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 /**
  * 演示 三种调用服务的方式
@@ -75,14 +77,20 @@ public class HelloController {
      *
      * @HystrixCommand指定熔断器配置
      *  fallbackMethod：服务降级时回调的方法，需要参数（可以加多个Throwable参数接受错误信息）、返回值一致
-     *  commandKey：命令分组
-     *  groupKey：命令组名
-     *  threadPoolKey：线程池划分名
+     *  commandKey：命令名，好像默认是方法名
+     *  groupKey：命令组名，用于组织统计命令的告警、仪表盘等信息，命令线程的划分默认也是根据组
+     *  threadPoolKey：线程池划分名，默认命令组名
+     *
+     *
+     * @CacheResult：设置请求缓存，默认缓存key为所有参数即name
+     *      指定缓存key：自身的属性cacheKeyMethod，或者@CacheKey，前者优先；若没指定则使用所有参数
+     *
+     * @CacheRemove：清除请求命令的缓存
      *
      * @param name
      * @return
      */
-    @CacheResult//设置请求缓存，默认缓存key为所有参数即name
+//    @CacheResult//妈个鸡，报错：Request caching is not available. Maybe you need to initialize the HystrixRequestContext，需要先初始化请求上下文，先不用了
     @HystrixCommand(fallbackMethod = "helloFallback", commandKey = "helloLBC", groupKey = "helloGroup", threadPoolKey = "helloLBC")
     @GetMapping("/helloLBC/{name}")
     public Map helloLBC(@PathVariable("name") String name) {
@@ -121,12 +129,15 @@ public class HelloController {
      * 使用 标注了@LoadBalanced注解的 RestTemplate 负载均衡
      *
      * @HystrixCommand熔断器配置
-     *  ignoreExceptions：指定要忽略的异常类型，即抛出这些错不触发服务降级
+     *  ignoreExceptions：指定要忽略的异常类型；
+     *      除了HystrixBadRequestException之外其他异常均会被Hystrix认为命令执行失败并触发服务降级
+     *      ignoreExceptions指定的异常会被封装成HystrixBadRequestException抛出，所以能避免触发服务降级
+     *  observableExecutionMode：指定执行方式；EAGER使用observe()，默认这种；LAZY使用toObservable()
      *
      * @param name
      * @return
      */
-    @HystrixCommand(fallbackMethod = "helloFallback", ignoreExceptions = {HystrixBadRequestException.class})
+    @HystrixCommand(fallbackMethod = "helloFallback", ignoreExceptions = {CloneNotSupportedException.class}, observableExecutionMode = ObservableExecutionMode.EAGER)
     @GetMapping("/helloLB/{name}")
     public Map helloLB(@PathVariable("name") String name) {
 
@@ -208,8 +219,12 @@ public class HelloController {
         });
     }
 
+
+
     /**
+     * fallback方法要和被降级的方法在同一个类中；fallback方法的修饰符没有特别要求，public private protected都可
      * fallback方法要和被降级的方法有相同参数，否则报错：fallback method wasn't found
+     *
      * @param name
      * @e 获取触发服务降级的具体异常内容
      * @return
@@ -226,19 +241,19 @@ public class HelloController {
     /**
      * 断路器的另一种方式：实现HystrixCommand接口
      *
-     * 没有注解方式简洁，不推荐
+     * 需要把逻辑封装到命令中，没有注解方式简洁，不推荐
      * @param name
      * @return
      */
-    @GetMapping("/other/{name}")
-    public String other(@PathVariable String name) {
+    @GetMapping("/helloHC/{name}")
+    public String helloHC(@PathVariable String name) {
         String rel = null;
         MyHystrixCommand command = new MyHystrixCommand(restTemplate, name);
 
-        //同步执行
+        //方式一：同步执行
         rel = command.execute();
 
-        //异步执行
+        //方式二：异步执行
 //        Future<String> queue = command.queue();
 //        try {
 //            rel = queue.get();
@@ -249,12 +264,55 @@ public class HelloController {
 //        }
 
         //返回Hot observable，命令会立刻执行，observable每次被订阅时会重放它的行为
-        Observable<String> observable_hot = command.observe();
+//        Observable<String> observable_hot = command.observe();
 
         //返回Cold observable，命令不会立刻执行，只有所有订阅者都订阅它后才执行
-        Observable<String> observable_cold = command.toObservable();
+//        Observable<String> observable_cold = command.toObservable();
 
         return rel;
+    }
+
+    /**
+     * 断路器的另一种方式：实现HystrixObservableCommand接口
+     *
+     * 没有注解方式简洁，不推荐
+     * @param name
+     * @return
+     */
+    @GetMapping(value = "/helloHOC/{name}")
+    public List<String> helloHOC(@PathVariable String name) {
+        MyHystrixObservableCommand command = new MyHystrixObservableCommand(restTemplate, name);
+
+        //返回Hot observable，命令会立刻执行，observable每次被订阅时会重放它的行为，这种有时候会漏结果
+//        Observable<String> observable = command.observe();
+
+        //返回Cold observable，命令不会立刻执行，只有所有订阅者都订阅它后才执行
+        Observable<String> observable = command.toObservable();
+
+        List<String> list_rel = new ArrayList<>();
+
+        //TODO 你妈了个逼的 这里有问题，还没给list_rel输入结果 list_rel就被返回了，导致页面看到的是空数组，后来重启服务又好了，感觉和jrebel热部署有关
+
+        observable.subscribe(new Observer<String>() {
+            @Override
+            public void onCompleted() {
+                System.out.println("聚合完了所有的查询请求!");
+                System.out.println(list_rel);
+            }
+
+            @Override
+            public void onError(Throwable t) {
+                System.out.println("出错了：" + t.toString());
+                t.printStackTrace();
+            }
+
+            @Override
+            public void onNext(String str) {
+                list_rel.add(str);
+            }
+        });
+
+        return list_rel;
     }
 
 }

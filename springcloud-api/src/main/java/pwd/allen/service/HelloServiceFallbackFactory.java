@@ -4,6 +4,8 @@ import feign.hystrix.FallbackFactory;
 import org.springframework.stereotype.Component;
 import pwd.allen.entity.User;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -22,14 +24,21 @@ public class HelloServiceFallbackFactory implements FallbackFactory<HelloService
         return new HelloService() {
             @Override
             public String sayHello(String name) {
-                return "fallback from " + this.getClass().getName() + throwable.toString();
+                return String.format("fallback from %s.sayHello;throwable=%s", this.getClass().getName(), throwable.toString());
             }
 
             @Override
             public User getUser(Map map_param) {
                 User user = new User();
-                user.setName("fallback：" + throwable.toString());
+                user.setName(String.format("fallback from %s.getUser;throwable=%s", this.getClass().getName(), throwable.toString()));
                 return user;
+            }
+
+            @Override
+            public List<String> sayHellos(List<String> names) {
+                ArrayList<String> list = new ArrayList<>();
+                list.add(String.format("fallback from %s.sayHellos;throwable=%s", this.getClass().getName(), throwable.toString()));
+                return list;
             }
         };
     }

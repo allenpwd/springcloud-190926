@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import pwd.allen.entity.User;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -30,4 +31,7 @@ public interface HelloService {
 
     @PostMapping("/hello/getUser")
     public User getUser(@RequestBody Map map_param);
+
+    @PostMapping("/hellos")
+    public List<String> sayHellos(@RequestBody List<String> names);
 }

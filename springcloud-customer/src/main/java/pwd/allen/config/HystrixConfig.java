@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Configuration;
  * @author lenovo
  * @create 2019-12-27 9:12
  **/
-//开启断路器，@EnableHystrix注解里面继承了这个注解
+//开启基于注解的断路器，@EnableHystrix注解里面继承了这个注解；即使没有这个注解，基于传统方式或者feign的断路器也能用
 @EnableCircuitBreaker
 @Configuration
 public class HystrixConfig {
