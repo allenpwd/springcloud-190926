@@ -24,11 +24,10 @@ import org.springframework.web.client.RestTemplate;
  * @author lenovo
  * @create 2019-09-29 15:24
  **/
-@EnableFeignClients(basePackages = {"pwd.allen.service"})
 //为helloservice应用自定义ribbon配置类，在配置类中声明IRule实现类；配置类不能被ComponentScan到，否则会覆盖所有的
 @RibbonClient(name="helloservice", configuration=MyRuleConfig.class)
 @Configuration
-public class LoadBalanceConfig {
+public class RibbonConfig {
 
     /**
      * 配置注入 RestTemplate 的 Bean，并通过 @LoadBalanced 注解通过拦截器给组件加上负载均衡功能

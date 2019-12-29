@@ -14,6 +14,10 @@ import org.springframework.context.annotation.Configuration;
  *      请求失败，被拒绝，超时或熔断时执行降级逻辑。
  *      近实时地监控指标和配置的修改。
  *
+ * 开启方式：
+ *  传统的方式，即直接把处理逻辑封装成HystrixCommand或者HystrixObservableCommand，不需要额外处理
+ *  feign方式，配置eign.hystrix.enabled=true
+ *  注解方式，@EnableCircuitBreaker
  *
  * @author lenovo
  * @create 2019-12-27 9:12

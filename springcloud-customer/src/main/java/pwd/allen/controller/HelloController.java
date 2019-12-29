@@ -1,17 +1,24 @@
 package pwd.allen.controller;
 
+import com.fasterxml.jackson.databind.deser.impl.BeanPropertyMap;
+import com.google.common.collect.Lists;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.ObservableExecutionMode;
 import com.netflix.hystrix.contrib.javanica.cache.annotation.CacheResult;
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.loadbalancer.LoadBalancerClient;
+import org.springframework.context.ApplicationContext;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import pwd.allen.command.MyHystrixCommand;
@@ -22,6 +29,7 @@ import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +56,9 @@ public class HelloController {
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private ApplicationContext applicationContext;
+
     /**
      * 使用feign 负载均衡
      *
@@ -59,13 +70,18 @@ public class HelloController {
     @GetMapping("/helloFeign/{name}")
     public Map helloFeign(@PathVariable("name") String name, @RequestHeader("User-Agent") String userAgent) {
 
+        HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
+
         System.out.println("User-Agent:" + userAgent);
 
         HashMap<String, Object> map_rel = new HashMap<>();
         map_rel.put("hello", helloService.sayHello(name));
+
         Map<String, Object> map_param = new HashMap<>();
         map_param.put("name", name);
         map_rel.put("hello/getUser", helloService.getUser(map_param));
+
+        map_rel.put("hellos", helloService.sayHellos(Lists.newArrayList(name, name + "2")));
 
         return map_rel;
     }
@@ -313,6 +329,19 @@ public class HelloController {
         });
 
         return list_rel;
+    }
+
+
+    @GetMapping("/bean/{beanName}")
+    public Object getBean(@PathVariable String beanName) {
+        List<Object> list = new ArrayList<>();
+        String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();
+        for (String beanDefinitionName : beanDefinitionNames) {
+            if (beanDefinitionName.toLowerCase().contains(beanName.toLowerCase())) {
+                list.add(applicationContext.getBean(beanDefinitionName));
+            }
+        }
+        return ReflectionToStringBuilder.toString(list);
     }
 
 }

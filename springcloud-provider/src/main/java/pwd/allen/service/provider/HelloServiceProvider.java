@@ -8,9 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import pwd.allen.entity.User;
 import pwd.allen.service.HelloService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 /**
@@ -62,6 +65,15 @@ public class HelloServiceProvider implements HelloService {
 
     @Override
     public User getUser(@RequestBody Map map_param) {
+
+        HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
+
+        try {
+            //模拟下超时
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+        }
+
         User user = new User();
         user.setAge(18);
         if (map_param.containsKey("name")) {

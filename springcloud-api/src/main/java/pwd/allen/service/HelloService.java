@@ -17,8 +17,13 @@ import java.util.Map;
  *
  * 可以使用Feign自带的注解或者JAX-RS注解，Feign还支持Spring MVC注解（@RequestParam @PathVariable @RequestHeader的value不可省略，因为Feign不会像Spring MVC那样以参数名作为默认值）
  *
- * fallbackFactory指定服务降级时调用的对应类的工厂类
- * fallback指定服务降级时调用的对应类
+ * @FeignClient：绑定接口与服务
+ *  value/name：服务名，不区分大写
+ *  fallbackFactory：指定服务降级时调用的对应类的工厂类
+ *  fallback：指定服务降级时调用的对应类
+ *
+ * 绑定Feign的接口中，@RequestParam、@RequestHeader这些可以指定参数名的注解的value不能省略
+ *
  *
  * @author 门那粒沙
  * @create 2019-09-26 21:29
@@ -32,6 +37,11 @@ public interface HelloService {
     @PostMapping("/hello/getUser")
     public User getUser(@RequestBody Map map_param);
 
+    /**
+     * 可以用自定义的实体类做为接收参数，但是必须有无参构造函数，否则feign根据JSON转实体类会报错
+     * @param names
+     * @return
+     */
     @PostMapping("/hellos")
     public List<String> sayHellos(@RequestBody List<String> names);
 }
