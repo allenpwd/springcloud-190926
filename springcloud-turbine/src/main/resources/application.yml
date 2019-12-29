@@ -6,13 +6,19 @@ eureka:
     service-url:
       #指定默认zone（defaultZone）的注册中心（默认http://localhost:8761/eureka/），多个用逗号隔开
       defaultZone: http://localhost:7001/eureka/
+  instance:
+      instance-id: ${spring.application.name}-${server.port}
+
 turbine:
-  #需要监控信息的服务名
-  app-config: HELLOCUSTOMER
+  #需要监控信息的服务名，多个用逗号分隔
+  app-config: HELLOCUSTOMER,HELLOSERVICE
   #集群名
-  cluster-name-expression: default
+  cluster-name-expression: new String('default')
   #同一主机上的服务通过主机名和端口号的组合来区分
   combine-host-port: true
+  #读取被监控应用状态数据的路径，不写的情况默认为actuator/hystrix.stream
+  instanceUrlSuffix: hystrix.stream
+
 
 #引入spring-boot-starter-actuator后，注册到eureka的服务可以在euraka页面跳转到info页面
 info:

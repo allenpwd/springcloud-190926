@@ -12,7 +12,13 @@
     <artifactId>springcloud-turbine</artifactId>
 
     <dependencies>
-        <!--实时调用监控，提供可视化界面-->
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+
+        <!--引入turbine 集群监控-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-turbine</artifactId>
