@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import pwd.allen.config.FeignBuilderConfig;
 import pwd.allen.entity.User;
 
 import java.util.Date;
@@ -28,7 +29,7 @@ import java.util.Map;
  * @author 门那粒沙
  * @create 2019-09-26 21:29
  **/
-@FeignClient(value = "helloservice", fallbackFactory = HelloServiceFallbackFactory.class)
+@FeignClient(value = "helloservice", fallbackFactory = HelloServiceFallbackFactory.class, configuration = FeignBuilderConfig.class)
 public interface HelloService {
 
     @GetMapping("/hello/{name}")

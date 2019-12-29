@@ -34,22 +34,30 @@ eureka:
 feign:
   hystrix:
     enabled: true #开启服务熔断器
-  client:
+  client:   #feign客户端，可参考配置类FeignClientProperties
     config:
-      #配置feign客户端默认配置
+      #配置默认配置
       default:
         connect-timeout: 500
         read-timeout: 5000
 
+#设置HelloService日志级别
+logging:
+  level:
+    pwd:
+      allen:
+        service:
+          HelloService: debug
+
+
 hystrix:
   command:
-    default:
+    default: #配置默认的命令属性，可参考配置类HystrixCommandProperties
       execution:
         isolation:
           thread:
             #设置HystrixCommand执行的超时时间，超过该值Hystrix会将该执行命令标记为Timeout并进入服务降级处理逻辑，默认1000
-            timeout-in-milliseconds: 500
-
+            timeoutInMilliseconds: 5000
 
 #引入spring-boot-starter-actuator后，注册到eureka的服务可以在euraka页面跳转到info页面
 info:
