@@ -48,10 +48,12 @@ public class MyZuulFilter extends ZuulFilter {
 
     /**
      * 配置是否需要过滤：true/需要，false/不需要
+     *
      * @return
      */
     @Override
     public boolean shouldFilter() {
+        //直接返回true，表示该过滤器对所有请求都会生效
         return true;
     }
 
@@ -69,12 +71,14 @@ public class MyZuulFilter extends ZuulFilter {
         if (token == null) {
             //没有token则返回提示
             logger.warn("Token is empty");
+            //让zuul过滤该请求，不进行路由
             context.setSendZuulResponse(false);
             context.setResponseStatusCode(401);
-            try {
-                context.getResponse().getWriter().write("Token is empty");
-            } catch (IOException e) {
-            }
+            context.setResponseBody("token is empty!");
+//            try {
+//                context.getResponse().getWriter().write("Token is empty");
+//            } catch (IOException e) {
+//            }
         } else {
             logger.info("OK");
         }

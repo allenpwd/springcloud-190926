@@ -28,9 +28,10 @@ public class HelloServiceProvider implements HelloService {
 
 
     /**
-     * 指定合并请求器，在100毫秒内的请求合并起来发给sayHellos批量查血，结果再拆分给单个请求
+     * 服务聚合
+     * 指定合并请求器，在100毫秒内的请求合并起来发给sayHellos批量查询，结果再拆分给各个请求
      *
-     * 问题：scope默认为request，会报空指针，HystrixRequestContext没有初始化，原因不详
+     * 问题：scope默认为request，会报空指针，HystrixRequestContext没有初始化，使用hystrix缓存也会这样，暂时设置为GLOBAL绕过这个坑
      *
      * @param name
      * @return

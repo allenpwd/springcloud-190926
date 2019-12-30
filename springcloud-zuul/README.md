@@ -1,0 +1,4 @@
+Zuul是Netflix开源的微服务网关，可以和Eureka、Ribbon、Hystrix等组件配合使用。
+Spring Cloud对Zuul进行了整合与增强，Zuul默认使用的HTTP客户端是Apache HTTPClient。
+
+Zuul的主要功能是路由转发和过滤器。
