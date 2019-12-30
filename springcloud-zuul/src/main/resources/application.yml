@@ -33,4 +33,14 @@ zuul:
     helloCustomer:
       serviceId: helloCustomer
       path: /customer/**
+    local:
+      serviceId: localRoute
+      path: /local/**
+
+ribbon:
+  eureka:
+    enabled: false
+localRoute:
+  ribbon:
+    list-of-servers: http://localhost:8888/,http://localhost:8889/
 
