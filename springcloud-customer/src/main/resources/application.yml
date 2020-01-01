@@ -33,8 +33,10 @@ eureka:
 
 feign:
   hystrix:
-    enabled: true #开启服务熔断器
-  client:   #feign客户端，可参考配置类FeignClientProperties
+    #开启服务熔断器
+    enabled: true
+  #feign客户端，可参考配置类FeignClientProperties
+  client:
     config:
       #配置默认配置
       default:
@@ -52,7 +54,8 @@ logging:
 
 hystrix:
   command:
-    default: #配置默认的命令属性，可参考配置类HystrixCommandProperties
+    #配置默认的命令属性，可参考配置类HystrixCommandProperties
+    default:
       execution:
         isolation:
           thread:

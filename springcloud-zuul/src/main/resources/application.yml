@@ -24,23 +24,32 @@ info:
   server.port: ${server.port}
 
 zuul:
-  ignored-services: helloservice #不设置的话使用用户名也可以访问，如果要禁止所有应用名的使用可以设置为"*"
+  #zuul与eureka整合后默认会为每个服务名自动创建{serviceId}/**的路由规则，可通过该属性设置忽略某些服务名的自动创建，如果要禁止所有应用名的使用可以设置为"*"
+  ignored-services:
+    - helloservice
   prefix: /api #设置公共前缀，注意前面要加/
   routes: #设置路由映射
-    helloService:
-      serviceId: helloservice
-      path: /service/**
-    helloCustomer:
-      serviceId: helloCustomer
-      path: /customer/**
     local:
-      serviceId: localRoute
+      #匹配客户端请求的路径表达式
       path: /local/**
+      #单实例配置方式，指定映射的具体实例地址，/local/hello转到http://localhost/hello
+#      url: http://localhost/
+      #多实例配置方式，指定映射的服务名，这种面相服务的方式还有一种简写的映射方法 {serviceId}: {path}  例如 localRoute: /local/**
+      serviceId: localRoute
+  host:
+    connect-timeout-millis: 5000
+#    helloService:
+#      serviceId: helloservice
+#      path: /service/**
+#    helloCustomer:
+#      serviceId: helloCustomer
+#      path: /customer/**
 
-ribbon:
-  eureka:
-    enabled: false
+#关闭服务发现功能
+#ribbon:
+#  eureka:
+#    enabled: false
+#人工指定serviceId对应的服务实例清单
 localRoute:
   ribbon:
-    list-of-servers: http://localhost:8888/,http://localhost:8889/
-
+    listOfServers: http://allen/
