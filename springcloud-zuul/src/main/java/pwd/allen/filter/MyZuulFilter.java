@@ -16,6 +16,21 @@ import java.io.IOException;
  * 步骤：
  *  继承ZuulFilter并加入到spring容器中即可
  *
+ * Zuul默认实现的核心过滤器
+ *  pre
+ *      ServletDetectionFilter：标记处理Servlet的类型
+ *      Servlet30WrapperFilter：包装HttpServletRequest请求
+ *      FormBodyWrapperFilter：包装请求体
+ *      DebugFilter：标记调试标记
+ *      PreDecorationFilter：处理请求上下文供后续使用
+ *  routing
+ *      RibbonRoutingFilter：serviceId请求转发
+ *      SimpleHostRoutingFilter：url请求转发
+ *      SendForwardFilter：forward请求转发
+ *  post
+ *      SendErrorFilter：处理有错误的请求响应
+ *      SendResponseFilter：处理正常处理的请求响应
+ *
  * @author 门那粒沙
  * @create 2019-11-30 12:24
  **/
@@ -26,9 +41,9 @@ public class MyZuulFilter extends ZuulFilter {
 
     /**
      * 配置过滤类型，有四种不同生命周期的过滤器类型
-     * 1. pre：路由之前
-     * 2. routing：路由之时
-     * 3. post：路由之后
+     * 1. pre：路由之前，适合做请求校验
+     * 2. routing：路由之时，路由请求转发阶段
+     * 3. post：routing或error过滤器之后
      * 4. error：发送错误调用
      * @return
      */
@@ -38,7 +53,7 @@ public class MyZuulFilter extends ZuulFilter {
     }
 
     /**
-     * 配置过滤的顺序
+     * 配置过滤的顺序，越小优先级越高
      * @return
      */
     @Override
@@ -47,7 +62,9 @@ public class MyZuulFilter extends ZuulFilter {
     }
 
     /**
-     * 配置是否需要过滤：true/需要，false/不需要
+     * 该过滤器是否要执行：true/需要，false/不需要
+     *
+     * 用法：指定过滤器的有效范围
      *
      * @return
      */
@@ -59,6 +76,7 @@ public class MyZuulFilter extends ZuulFilter {
 
     /**
      * 过滤器的具体业务代码
+     *
      * @return
      * @throws ZuulException
      */
