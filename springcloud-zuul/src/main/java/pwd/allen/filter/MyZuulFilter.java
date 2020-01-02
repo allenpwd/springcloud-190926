@@ -80,7 +80,7 @@ public class MyZuulFilter extends ZuulFilter {
 //            } catch (IOException e) {
 //            }
         } else {
-            logger.info("OK");
+            logger.info(String.format("token=%s", token));
         }
         return null;
     }
