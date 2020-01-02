@@ -70,10 +70,10 @@ public class HelloServiceProvider implements HelloService {
         HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
 
         //模拟下超时
-//        try {
-//            Thread.sleep(1000);
-//        } catch (InterruptedException e) {
-//        }
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+        }
 
         User user = new User();
         user.setAge(18);

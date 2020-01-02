@@ -39,7 +39,7 @@ zuul:
     local:
       #匹配客户端请求的路径表达式
       path: /local/**
-      #单实例配置方式，指定映射的具体实例地址，/local/hello转到http://localhost/hello
+      #单实例配置方式，指定映射的具体实例地址，该方式不会使用Hystrix负载均衡，例如 /local/hello转到http://localhost/hello
 #      url: http://localhost/
       #多实例配置方式，指定映射的服务名，这种面相服务的方式还有一种简写的映射方法 {serviceId}: {path}  例如 localRoute: /local/**
       serviceId: localRoute
@@ -56,7 +56,7 @@ zuul:
     forward:
       path: /forward/**
       url: forward:/localForward
-  #网关在进行路由转发前为请求设置Host头信息，避免重定向到具体事例地址
+  #网关在进行路由转发前为请求设置Host头信息，避免重定向到具体事例地址（参考PreDecorationFilter）
   add-host-header: true
 
 #关闭服务发现功能
@@ -67,3 +67,16 @@ zuul:
 localRoute:
   ribbon:
     listOfServers: http://localhost/
+
+#处理zuul转发超时情况，没有效果
+hystrix:
+  command:
+    #配置默认的命令属性，可参考配置类HystrixCommandProperties
+    default:
+      execution:
+        isolation:
+          thread:
+            #设置HystrixCommand执行的超时时间，超过该值Hystrix会将该执行命令标记为Timeout并进入服务降级处理逻辑，默认1000
+            timeoutInMilliseconds: 5000
+ribbon:
+  connectTimeOut: 5000

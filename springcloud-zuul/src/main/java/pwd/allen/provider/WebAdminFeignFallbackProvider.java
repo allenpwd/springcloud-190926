@@ -69,7 +69,9 @@ public class WebAdminFeignFallbackProvider implements FallbackProvider {
                 ObjectMapper objectMapper = new ObjectMapper();
                 Map<String, Object> map = new HashMap<>();
                 map.put("status", 200);
-                map.put("message", "无法连接，请检查您的网络");
+                map.put("message", String.format("fallback：%s", this.getClass().getName()));
+                map.put("throwable", cause.toString());
+                cause.printStackTrace();
                 return new ByteArrayInputStream(objectMapper.writeValueAsString(map).getBytes("UTF-8"));
             }
 
