@@ -1,6 +1,7 @@
 server:
   port: 7003
   error:
+    #出错时提供exception对象，TODO没有效果
     include-exception: true
 spring:
   application:
@@ -62,6 +63,8 @@ zuul:
   add-host-header: true
   #为请求增加头域，比如X-Forwarded-For
   add-proxy-headers: true
+  #是否禁用某个过滤器，格式：zuul.<FilterClassName>.<FilterType>.disable
+#  MyZuulFilter.pre.disable: true
 
 #关闭服务发现功能
 #ribbon:
