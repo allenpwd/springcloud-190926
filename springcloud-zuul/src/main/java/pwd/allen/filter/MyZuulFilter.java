@@ -18,18 +18,21 @@ import java.io.IOException;
  *
  * Zuul默认实现的核心过滤器
  *  pre
- *      ServletDetectionFilter：标记处理Servlet的类型
- *      Servlet30WrapperFilter：包装HttpServletRequest请求
- *      FormBodyWrapperFilter：包装请求体
- *      DebugFilter：标记调试标记
- *      PreDecorationFilter：处理请求上下文供后续使用
+ *      ServletDetectionFilter（-3）：标记处理Servlet的类型
+ *      Servlet30WrapperFilter（-2）：包装HttpServletRequest请求
+ *      FormBodyWrapperFilter（-1）：包装请求体
+ *      DebugFilter（1）：标记调试标记
+ *      PreDecorationFilter（5）：处理请求上下文供后续使用
  *  routing
- *      RibbonRoutingFilter：serviceId请求转发
- *      SimpleHostRoutingFilter：url请求转发
- *      SendForwardFilter：forward请求转发
+ *      RibbonRoutingFilter（10）：serviceId请求转发
+ *      SimpleHostRoutingFilter（100）：url请求转发
+ *      SendForwardFilter（500）：forward请求转发
  *  post
- *      SendErrorFilter：处理有错误的请求响应
- *      SendResponseFilter：处理正常处理的请求响应
+ *      SendErrorFilter（0）：处理有错误的请求响应
+ *      SendResponseFilter（1000）：处理正常处理的请求响应
+ *
+ *
+ *  调用过滤器的处理器可参考 {@link com.netflix.zuul.FilterProcessor}
  *
  * @author 门那粒沙
  * @create 2019-11-30 12:24
