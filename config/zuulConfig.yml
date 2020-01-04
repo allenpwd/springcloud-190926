@@ -15,5 +15,5 @@ ribbon:
 zuul:
   routes:
     myConfig:
-      path: /myConfig/**
+      path: /myConfig2/**
       url: forward:/localForward
