@@ -26,6 +26,7 @@ public class LocalController {
     public Object localForward(HttpServletRequest request) {
 
         String action = request.getParameter("action");
+        //想刷新路由映射实现动态更新，但是无效
         if ("refresh".equals(action)) {
             applicationContext.publishEvent(new RoutesRefreshedEvent(routeLocator));
         }

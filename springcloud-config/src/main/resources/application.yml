@@ -8,9 +8,18 @@ spring:
     config:
       server:
         git:
-          uri: git@gitee.com:allenpwd/springcloud-190926.git #ssh方式指定git地址
-          search-paths: config  #配置仓库路径（存放配置文件的目录）
-          strict-host-key-checking: true #之前gitee报错：com.jcraft.jsch.JSchException: reject HostKey: gitee.com原因不明，后面突然不会了
+          #ssh方式指定git地址，支持通配符，可以使用{application}（客户端的应用名）、{profile}、{label}占位符
+#          uri: git@gitee.com:allenpwd/springcloud-190926.git
+          #指定本地的git仓库，指定有.git的目录，本地调试常用
+          uri: file://${user.dir}
+          #将配置定位到仓库的子目录，支持占位符
+          search-paths:
+            - config
+          #存储仓库的本地路径
+#          basedir: C:\Users\Administrator\Desktop\temp
+          #之前gitee报错：com.jcraft.jsch.JSchException: reject HostKey: gitee.com原因不明，后面突然不会了
+          strict-host-key-checking: true
+          
   http:
     encoding:
       force: true   #加上后直接在页面访问配置中文不会乱码
