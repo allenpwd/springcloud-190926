@@ -1,0 +1,19 @@
+#处理zuul转发超时情况
+hystrix:
+  command:
+    #配置默认的命令属性，可参考配置类HystrixCommandProperties
+    default:
+      execution:
+        isolation:
+          thread:
+            #设置HystrixCommand执行的超时时间，超过该值Hystrix会将该执行命令标记为Timeout并进入服务降级处理逻辑，默认1000
+            timeoutInMilliseconds: 5000
+ribbon:
+#  ConnectTimeout: 1000
+  ReadTimeout: 2000
+
+zuul:
+  routes:
+    myConfig:
+      path: /myConfig/**
+      url: forward:/localForward

@@ -1,7 +1,7 @@
 server:
   port: 7003
   error:
-    #出错时提供exception对象，TODO没有效果
+    #出错时提供exception对象，scope为request的attribute(javax.servlet.error.exception)
     include-exception: true
 spring:
   application:
@@ -70,7 +70,7 @@ zuul:
 #ribbon:
 #  eureka:
 #    enabled: false
-#人工指定serviceId对应的服务实例清单
+#人工指定serviceId对应的服务实例清单，TODO没有效果
 localRoute:
   ribbon:
     listOfServers: http://localhost/
@@ -84,7 +84,7 @@ hystrix:
         isolation:
           thread:
             #设置HystrixCommand执行的超时时间，超过该值Hystrix会将该执行命令标记为Timeout并进入服务降级处理逻辑，默认1000
-            timeoutInMilliseconds: 5000
+            timeoutInMilliseconds: 1000
 ribbon:
 #  ConnectTimeout: 1000
-  ReadTimeout: 2000
+  ReadTimeout: 1000
