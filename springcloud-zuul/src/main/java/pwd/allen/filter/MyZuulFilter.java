@@ -22,10 +22,10 @@ import java.io.IOException;
  *      Servlet30WrapperFilter（-2）：包装HttpServletRequest请求
  *      FormBodyWrapperFilter（-1）：包装请求体
  *      DebugFilter（1）：标记调试标记
- *      PreDecorationFilter（5）：处理请求上下文供后续使用
+ *      PreDecorationFilter（5）：处理请求上下文供后续使用（根据是否http/https、是否forward:开头、是否serviceId设置上下文）
  *  routing
- *      RibbonRoutingFilter（10）：serviceId请求转发
- *      SimpleHostRoutingFilter（100）：url请求转发
+ *      RibbonRoutingFilter（10）：serviceId请求转发，ribbon、Hystrix客户端负载均衡方式
+ *      SimpleHostRoutingFilter（100）：url请求转发，httpClient方式
  *      SendForwardFilter（500）：forward请求转发
  *  post
  *      SendErrorFilter（0）：处理有错误的请求响应

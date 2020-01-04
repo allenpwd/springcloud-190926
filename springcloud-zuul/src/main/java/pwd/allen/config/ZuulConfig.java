@@ -1,5 +1,8 @@
 package pwd.allen.config;
 
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
+import org.springframework.cloud.netflix.zuul.filters.ZuulProperties;
 import org.springframework.cloud.netflix.zuul.filters.discovery.PatternServiceRouteMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,4 +31,5 @@ public class ZuulConfig {
         String routePattern = "${test}/${name}";
         return new PatternServiceRouteMapper(servicePattern, routePattern);
     }
+
 }

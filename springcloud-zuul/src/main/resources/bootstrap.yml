@@ -1,7 +1,4 @@
-#bootstrap.yml（bootstrap.properties）用来程序引导时执行，应用于更加早期配置信息读取，如可以使用来配置application.yml中使用到参数
-#bootstrap.yml 先于 application.yml 加载
-#应该在 bootstrap.yml 里面指定 spring.application.name 和 spring.cloud.config.server.git.uri和一些加密/解密的信息
-#因为这些信息是需要提早的或引导的配置
+#测试动态路由，TODO没有效果
 spring:
   cloud:
     config:
