@@ -4,8 +4,23 @@
 - 下载jce，jdk8版本下载地址：http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html
 - 将里面的jar放到%JAVA_HOME%\jre\lib\security
 
-### jdk中自带的keytool工具生成密钥文件
-keytool -genkeypair -alias myAlias -keyalg RSA -dname "CN=Web Server,OU=China,O=gu,L=GuangZhou,S=CZ,C=China" -keypass myKeyPass -keystore config-service.jks -storepass myStorePass
+### 密钥文件
+#### 使用jdk中自带的keytool工具生成
+```
+keytool -genkeypair -alias myAlias -keyalg RSA -dname "CN=Web Server,OU=China,O=gu,L=GuangZhou,S=CZ,C=China" -keypass myKeyPass -keystore config-service.jks -storepass myStorePass -validity 365
+```
+其中dname各个属性：
+- CN：名字与姓氏
+- OU：组织单位名称
+- O：组织名称
+- L：所在城市或区域名称
+- C：国家/地区代码
+- ST：省/市/自治区名称
+#### 查看密钥对信息
+```
+keytool -v -list -keystore config-service.jks -storepass myStorePass
+```
+
 
 ### config加密解密功能的相关端点
 - /encrypt/status：查看加密功能状态

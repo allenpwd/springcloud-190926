@@ -1,5 +1,9 @@
 #配置密钥，不能放在application.yml，否则RsaProperties无法生效
+#也可以通过环境变量的方式配置；ENCRYPT_KEY_STORE_LOCATION、ENCRYPT_KEY_STORE_ALIAS、ENCRYPT_KEY_STORE_PASSWORD、ENCRYPT_KEY_STORE_SECRET
 encrypt:
+  #对称加密
+#  key: myEncryptKey
+  #非对称加密，配置基于RSA密钥对
   key-store:
     alias: myAlias
     location: classpath:key/config-service.jks

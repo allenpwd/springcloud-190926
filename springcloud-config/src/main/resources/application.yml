@@ -33,7 +33,8 @@ spring:
 
   http:
     encoding:
-      force: true   #加上后直接在页面访问配置中文不会乱码
+      #加上后直接在页面访问配置中文不会乱码，但是注释掉了也不会乱码啊
+#      force: true
 #      charset: UTF-8
 #      enabled: true
   zipkin:     #链路追踪支持
@@ -48,3 +49,8 @@ spring:
       name: user
       password: 123456
 
+#注册到服务中心
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka/

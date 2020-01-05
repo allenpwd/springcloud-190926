@@ -10,8 +10,9 @@ spring:
       name: myConfig
       profile: dev #本次访问的配置项，默认default
       label: master
-      #springcloud config服务端地址
-      uri: http://localhost:7004
+      #springcloud config服务端地址，默认http://localhost:8888
+      uri:
+        - http://localhost:7004
       #若服务端设置了安全保护，需配置安全信息
       username: user
       password: 1234567
