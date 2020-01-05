@@ -3,3 +3,19 @@ spring:
     name: myConfig
 server:
   port: 3356 #config server上配置的是3355，所以最终端口是3355
+
+#配置actuator
+management:
+  endpoints:
+    web:
+      exposure:
+        #暴露所有端口，作用相当于低版本的management.security.enabled=false
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+#是否开启config的健康监测，默认开启，位于health端点的configServer
+health:
+  config:
+    enabled: true

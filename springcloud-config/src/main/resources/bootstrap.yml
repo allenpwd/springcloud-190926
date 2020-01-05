@@ -1,0 +1,7 @@
+#配置密钥，不能放在application.yml，否则RsaProperties无法生效
+encrypt:
+  key-store:
+    alias: myAlias
+    location: classpath:key/config-service.jks
+    password: myStorePass
+    secret: myKeyPass

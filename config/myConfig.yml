@@ -13,6 +13,8 @@ spring:
   profiles: dev
 server:
   port: 3355
+  #使用{cipher}前缀来标注该内容是个加密值，会被解密
+  encrypt: '{cipher}AQACpNmQ4KQxq2zu2a3I5KpvbPY9mqVkGH2scaEX+/Y2hhE3bR6+rzb/CD62+xljzFjvwJv97fjl2Nvo8ToQY0pcRnxXwd7X6yhvjRh/UOWCKlUG35Zw/gFmaDq70XZTiwxco2z8IkcN8Y6W+L4WaA40teJpKtV2DqAgsvX522lHTpDFl/8V6f4ASKoBw2uQQcmebhYIUYEYGMpoj5m92tPgBTGtyZ3RbGsAkTjw1SrIgDE6xQXJSCsL+BLubRRXIlFmyzB3DjgTmL+BBFCwkCp+oBIx0Dg2a8RE1v2pAWpBAX6BWHLLmkbEhH1tHv1EcP7ZEZ7PZodnuoEFiMRTmp6BDM7CilF8s5xDoVoVx6smc/DZneidQqBed8cgljonlQ0='
 ---
 spring:
   profiles: test

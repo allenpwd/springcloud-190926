@@ -4,6 +4,8 @@ server:
 spring:
   application:
     name: config
+  profiles:
+#    active: native  #让config使用本地文件系统的存储方式来保存配置信息
   cloud:
     config:
       server:
@@ -19,7 +21,16 @@ spring:
 #          basedir: C:\Users\Administrator\Desktop\temp
           #之前gitee报错：com.jcraft.jsch.JSchException: reject HostKey: gitee.com原因不明，后面突然不会了
           strict-host-key-checking: true
-          
+        native:
+          #指定本地文件系统的搜索配置文件的路径，默认[classpath:/,classpath:/config/,file:./,file:./config/]
+          search-locations:
+#            - file:${user.dir}/config
+        #配置共同属性，即会发给所有客户端的属性
+        overrides:
+          or_name: ouLiGei
+          or_title: 属性覆盖
+
+
   http:
     encoding:
       force: true   #加上后直接在页面访问配置中文不会乱码
@@ -31,3 +42,9 @@ spring:
       admin:
         client:
           url: http://localhost:7005
+  #设置security安全保护
+  security:
+    user:
+      name: user
+      password: 123456
+

@@ -1,7 +1,9 @@
 package pwd.allen;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.cloud.config.server.EnableConfigServer;
 
 /**
@@ -25,6 +27,7 @@ import org.springframework.cloud.config.server.EnableConfigServer;
  **/
 @SpringBootApplication
 @EnableConfigServer //为微服务架构提供集中化的外部配置支持
+@EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class})//要禁用security可以打开这个注解
 public class ConfigServerMain {
 
     public static void main(String[] args) {
