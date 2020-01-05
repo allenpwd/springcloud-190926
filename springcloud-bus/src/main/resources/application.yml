@@ -1,0 +1,19 @@
+server:
+  port: 7007
+
+spring:
+  application:
+    name: bus
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka/
+#    register-with-eureka: false
+
+#配置actuator
+management:
+  endpoint:
+    health:
+      ##是config的ConfigServer端点能在health端点里看到
+      show-details: always

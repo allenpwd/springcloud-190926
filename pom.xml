@@ -115,6 +115,7 @@
         <module>springcloud-zipkin</module>
         <module>springboot-admin</module>
         <module>springcloud-turbine</module>
+        <module>springcloud-bus</module>
     </modules>
 
 </project>
