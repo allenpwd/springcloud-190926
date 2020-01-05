@@ -55,3 +55,10 @@ eureka:
     service-url:
       defaultZone: http://localhost:7001/eureka/
     fetch-registry: false
+
+
+#配置actuator
+management:
+  endpoint:
+    health:
+      show-details: always #是config的ConfigServer端点能在health端点里看到

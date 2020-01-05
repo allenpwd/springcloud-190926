@@ -3,14 +3,17 @@ server:
 
 #配置actuator
 management:
+  endpoint:
+    health:
+      ##是config的ConfigServer端点能在health端点里看到
+      show-details: always
   endpoints:
     web:
       exposure:
-        #暴露所有端口，作用相当于低版本的management.security.enabled=false
-        include: '*'
-  endpoint:
-    health:
-      show-details: always
+        include:
+          - refresh #该端点用于实现客户端应用配置信息的重新获取和刷新
+          - health
+          - info
 
 #是否开启config的健康监测，默认开启，位于health端点的configServer
 health:

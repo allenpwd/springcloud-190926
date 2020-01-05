@@ -7,7 +7,7 @@ spring:
 ---
 info:
   pwd:
-    test: this is dev
+    test: this is devdft
 spring:
   profiles: dev
 server:

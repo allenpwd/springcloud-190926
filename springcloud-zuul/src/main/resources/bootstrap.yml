@@ -1,4 +1,4 @@
-#测试动态路由，TODO没有效果
+#从集中化配置中心读取路由，可利用actutor/refresh端点刷新或者整合spring cloud bus
 spring:
   cloud:
     config:

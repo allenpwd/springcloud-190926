@@ -22,6 +22,11 @@ spring:
       #若服务端设置了安全保护，需配置安全信息
       username: user
       password: 123456
+      #避免远程仓库出问题长时间等待
+      fail-fast: true
+      #启动时最大重试次数，默认6，需依赖spring-retry（猜测原理是aop）
+      retry:
+        max-attempts: 6
 
 eureka:
   client:

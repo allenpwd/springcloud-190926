@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author 门那粒沙
  * @create 2019-10-02 16:50
  **/
-@RefreshScope
+@RefreshScope //用来实现配置、实例热加载
 @RestController
 public class MyController {
 

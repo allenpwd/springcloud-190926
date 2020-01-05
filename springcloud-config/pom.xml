@@ -13,7 +13,11 @@
 
     <dependencies>
 
-        <!-- 如果用eureka-server版本的，/{application}/{profile}/形式访问端点返回的配置信息是xml格式而不是json的 -->
+        <!-- 如果用eureka-server版本的，/{application}/{profile}/形式访问端点返回的配置信息是xml格式而不是json的
+            原因是引入了jackson-dataformat-xml这个依赖，它是提供了jackson将实体类转化为xml相关的作用
+            服务器会根据accept来决定是返回xml还是json，由于浏览器accept只有最后的*/是匹配 application/json的
+            而application/xml在/*前面，优先级比json高，所以用浏览器直接调用是会优先返回xml格式的
+         -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
@@ -24,6 +28,7 @@
             <!--<artifactId>spring-cloud-starter-config</artifactId>-->
         <!--</dependency>-->
 
+        <!--配置中心服务端-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-config-server</artifactId>

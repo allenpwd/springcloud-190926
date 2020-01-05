@@ -95,3 +95,15 @@ hystrix:
           thread:
             #设置HystrixCommand执行的超时时间，超过该值Hystrix会将该执行命令标记为Timeout并进入服务降级处理逻辑，默认1000
             timeoutInMilliseconds: 1000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - refresh
+          - health
+          - info
+  endpoint:
+    health:
+      show-details: always
