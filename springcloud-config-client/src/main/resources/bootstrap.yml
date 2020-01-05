@@ -4,15 +4,27 @@
 #因为这些信息是需要提早的或引导的配置
 #可以通过设置`spring.cloud.bootstrap.enabled=false`来禁用`bootstrap`
 spring:
+  application:
+    name: config-client
   cloud:
     config:
+      #方式一：直接指定springcloud config服务端地址，默认http://localhost:8888
+#      uri:
+#        - http://localhost:7004
+      #方式二：从服务中心找配置中心
+      discovery:
+        enabled: true
+        service-id: config-server
       #需要从github上读取的资源名称，不用加上yml等资源后缀，默认${spring.application.name:application}
       name: myConfig
       profile: dev #本次访问的配置项，默认default
       label: master
-      #springcloud config服务端地址，默认http://localhost:8888
-      uri:
-        - http://localhost:7004
       #若服务端设置了安全保护，需配置安全信息
       username: user
-      password: 1234567
+      password: 123456
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka/
+#    register-with-eureka: false

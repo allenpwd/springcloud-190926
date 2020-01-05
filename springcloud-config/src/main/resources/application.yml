@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: config
+    name: config-server
   profiles:
 #    active: native  #让config使用本地文件系统的存储方式来保存配置信息
   cloud:
@@ -33,8 +33,8 @@ spring:
 
   http:
     encoding:
-      #加上后直接在页面访问配置中文不会乱码，但是注释掉了也不会乱码啊
-#      force: true
+      #加上后直接在页面访问配置中文不会乱码
+      force: true
 #      charset: UTF-8
 #      enabled: true
   zipkin:     #链路追踪支持
@@ -54,3 +54,4 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:7001/eureka/
+    fetch-registry: false

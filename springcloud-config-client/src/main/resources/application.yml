@@ -1,6 +1,3 @@
-spring:
-  application:
-    name: myConfig
 server:
   port: 3356 #config server上配置的是3355，所以最终端口是3355
 

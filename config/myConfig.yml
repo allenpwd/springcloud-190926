@@ -1,7 +1,6 @@
 spring:
   profiles:
-    active:
-      - dev
+    active: dev
   zipkin:
     base-url: http://localhost:9411 #链路追踪支持
 

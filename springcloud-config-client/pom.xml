@@ -13,6 +13,12 @@
 
     <dependencies>
 
+        <!-- 这里如果换成client启动报错：Unsatisfied dependency expressed through method 'httpClient' parameter 0 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>

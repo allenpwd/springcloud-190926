@@ -13,10 +13,10 @@
 
     <dependencies>
 
-        <!-- 这里如果换成client启动报错：Unsatisfied dependency expressed through method 'httpClient' parameter 0 -->
+        <!-- 如果用eureka-server版本的，/{application}/{profile}/形式访问端点返回的配置信息是xml格式而不是json的 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
         <!--<dependency>-->

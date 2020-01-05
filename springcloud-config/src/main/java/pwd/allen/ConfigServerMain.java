@@ -27,7 +27,7 @@ import org.springframework.cloud.config.server.EnableConfigServer;
  * @create 2019-09-30 11:37
  **/
 @SpringBootApplication
-//@EnableDiscoveryClient
+@EnableDiscoveryClient
 @EnableConfigServer //为微服务架构提供集中化的外部配置支持
 @EnableAutoConfiguration(exclude = {SecurityAutoConfiguration.class})//要禁用security可以打开这个注解
 public class ConfigServerMain {
