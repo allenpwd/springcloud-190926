@@ -14,8 +14,21 @@ management:
           - refresh #该端点用于实现客户端应用配置信息的重新获取和刷新
           - health
           - info
+          - bus-refresh
 
 #是否开启config的健康监测，默认开启，位于health端点的configServer
 health:
   config:
     enabled: true
+
+#springcloud bus结合config，以rabbitmq作为消息代理，实现应用配置的更新
+spring:
+  rabbitmq:
+    host: localhost
+    username: guest
+    password: guest
+    port: 5672
+  cloud:
+    bus:
+      trace:
+        enabled: false

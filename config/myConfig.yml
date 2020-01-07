@@ -7,9 +7,11 @@ spring:
 ---
 info:
   pwd:
-    test: this is devdft
+    test: this is dev
 spring:
   profiles: dev
+  rabbitmq:
+    host: 192.168.118.102
 server:
   port: 3355
   #使用{cipher}前缀来标注该内容是个加密值，会被解密
