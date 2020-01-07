@@ -12,6 +12,13 @@
     <artifactId>springcloud-bus</artifactId>
 
     <dependencies>
+
+        <!-- 消息总线 -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bus-amqp</artifactId>
+        </dependency>
+
         <!-- 注册中心客户端 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>

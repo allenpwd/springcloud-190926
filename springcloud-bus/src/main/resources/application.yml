@@ -4,6 +4,13 @@ server:
 spring:
   application:
     name: bus
+  #配置rabbitmq
+  rabbitmq:
+    addresses: 172.18.8.58
+    username: guest
+    password: guest
+    port: 5672
+
 
 eureka:
   client:
