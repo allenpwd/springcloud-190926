@@ -1,8 +1,9 @@
 SpringCloud Bus使用轻量级消息代理将分布式系统的节点连接起来。然后可以使用此代理广播状态更改(例如配置更改)或其他管理指令。
+单独作为一个module是为了注释方便，其实可以把刷新总线的端口放到注册中心那个module。
 ### 使用步骤
 - 依赖
 ```xml
-<!-- bus-RabbitMQ -->
+<!-- 方式一：消息代理使用RabbitMQ -->
 <dependency>
     <groupId>org.springframework.cloud</groupId>
     <artifactId>spring-cloud-starter-bus-amqp</artifactId>

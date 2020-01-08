@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: bus
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config-server
+      #需要从github上读取的资源名称，不用加上yml等资源后缀，默认${spring.application.name:application}
+      name: myConfig
+#      profile: dev #本次访问的配置项，默认default
+      label: master
+      #若服务端设置了安全保护，需配置安全信息
+      username: user
+      password: 123456
+      #避免远程仓库出问题长时间等待
+      fail-fast: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7001/eureka/
+#    register-with-eureka: false
