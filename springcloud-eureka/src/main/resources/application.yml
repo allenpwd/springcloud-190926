@@ -22,3 +22,13 @@ spring:
       admin:
         client:
           url: http://localhost:7005
+
+#配置actuator
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include:
