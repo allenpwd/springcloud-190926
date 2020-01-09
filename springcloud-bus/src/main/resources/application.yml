@@ -34,3 +34,4 @@ management:
           - health
           - info
           - bus-refresh #该端点用于向bus消息总线发布更新信息，比如发到rabbitmq，所有监听该rabbitmq的client都会收到消息从而可以更新配置
+          - bus-env #该端点用于向bus消息总线发布更新环境参数
