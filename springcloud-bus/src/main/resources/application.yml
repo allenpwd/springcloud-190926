@@ -18,6 +18,10 @@ spring:
       bindings:
         input:
           group: group1 #指定组名，保障每个消息只被组内一个实例消费
+          destination: input1
+        output:
+          group: group1
+          destination: output1
 
 eureka:
   client:
