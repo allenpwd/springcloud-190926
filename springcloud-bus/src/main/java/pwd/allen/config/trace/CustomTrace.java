@@ -1,4 +1,4 @@
-package pwd.allen.config;
+package pwd.allen.config.trace;
 
 import org.springframework.util.Assert;
 

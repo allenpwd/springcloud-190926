@@ -1,8 +1,11 @@
-package pwd.allen.config;
+package pwd.allen.config.trace;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import pwd.allen.config.trace.CustomTraceRepositoryImpl;
+import pwd.allen.config.trace.CustomeTraceRepository;
+import pwd.allen.config.trace.TraceListener;
 
 /**
  * springcloud新版没法直接开启事件追踪

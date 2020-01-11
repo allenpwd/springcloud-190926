@@ -14,6 +14,10 @@ spring:
         enabled: true
       ack:
         enabled: true
+    stream:
+      bindings:
+        input:
+          group: group1 #指定组名，保障每个消息只被组内一个实例消费
 
 eureka:
   client:

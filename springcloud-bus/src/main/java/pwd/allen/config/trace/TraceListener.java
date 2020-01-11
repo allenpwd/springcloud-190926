@@ -1,4 +1,4 @@
-package pwd.allen.config;
+package pwd.allen.config.trace;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
