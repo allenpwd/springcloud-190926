@@ -30,6 +30,12 @@
             <artifactId>spring-cloud-starter-bus-amqp</artifactId>
         </dependency>
 
+        <!--springcloud config客户端-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
+
         <!-- actuator监控信息完善，zuul提供了routes端点来返回当前的所有路由规则 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

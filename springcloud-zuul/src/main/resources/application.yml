@@ -4,14 +4,6 @@ server:
     #出错时提供exception对象，scope为request的attribute(javax.servlet.error.exception)
     include-exception: true
 spring:
-  application:
-    name: zuul-gateway
-  zipkin:     #链路追踪支持
-    base-url: http://localhost:9411
-  boot:
-      admin:
-        client:
-          url: http://localhost:7005
   rabbitmq:
     host: localhost
     username: guest
@@ -26,12 +18,6 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:7001/eureka/
-
-info:
-  app: zuul
-  log: info信息
-  application-name: ${spring.application.name}
-  server.port: ${server.port}
 
 zuul:
   #zuul与eureka整合后默认会为每个服务名自动创建{serviceId}/**的路由规则，可通过该属性设置忽略某些服务名的自动创建，如果要禁止所有应用名的使用可以设置为"*"
