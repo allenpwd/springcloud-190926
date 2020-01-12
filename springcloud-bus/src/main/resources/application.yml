@@ -2,7 +2,7 @@ server:
   port: 7007
 
 spring:
-  #配置rabbitmq
+  #基于springboot的connectionFactory配置rabbitmq，可参考RabbitProperties
   rabbitmq:
     host: localhost
     username: guest
@@ -16,12 +16,53 @@ spring:
         enabled: true
     stream:
       bindings:
+        #名称为input的消息通道属性配置
         input:
-          group: group1 #指定组名，保障每个消息只被组内一个实例消费
-          destination: input1
+          #通用属性
+          group: groupA #指定消费组名，主要用于输入通道，保障每个消息只被组内一个实例消费
+          destination: input1 #指定该通道的主题名，默认通道名；如果通道是消费者，可以指定多个（逗号隔开）
+          #为input消息通道单独设置绑定器，可以是绑定器标识，也可以是显式配置方式的别名
+          binder: rabbit
         output:
           group: group1
           destination: output1
+      #指定默认绑定器，当引入多个绑定器时需要指定，名称来自于META-INF/spring.bingders文件中定义的标识
+      default-binder: rabbit
+
+#spring:
+#  cloud:
+#    stream:
+#      binders:
+#        rabbitA: #指定 显式配置绑定器 的别名
+#          type: rabbit #绑定器类型，名称来自于META-INF/spring.bingders文件中定义的标识
+#          environment: #绑定器属性，默认为空
+#            spring:
+#              rabbitmq:
+#                host: 192.168.118.102
+#                port: 5672
+#                username: guest
+#                password: guest
+#          #是否被视为默认绑定器的候选项，默认true，若不想让该配置影响默认配置，可设为false
+#          defaultCandidate: true
+
+#spring:
+#  cloud:
+#      #消息分区：使相同特征的消息被同一个实例消费
+#      #配置消费分区
+#      input:
+#        #消费者属性，可参考ConsumerProperties，只列几个意思意思
+#        consumer:
+#          partitioned: true #来自消息生产者的数据是否采用了分区，默认false
+#          max-attempts: 3 #消息处理的最大重试数
+#      instance-count: 2 #应用程序部署的实例数，默认1
+#      instance-index: 0 #应用程序实例的索引，从0开始
+#      #配置生产分区
+#      output:
+#        #生产者属性，可参考ProducerProperties
+#        producer:
+#          partition-key-expression: payload #数据分区建的SpEL表达式，与partition-key-Extractor-class互斥
+#          partition-selector-expression: #分区选择器的SpEL表达式，与partition-selector-class互斥，若两者都没设置则规则为hashCode(key)%partitionCount，key为分区键
+#          partition-count: 2 #分区数，若配置了分区策略，则该值需大于1
 
 eureka:
   client:

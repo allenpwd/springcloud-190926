@@ -21,7 +21,8 @@ import java.util.Date;
  * 通过绑定器Binder关联应用程序与消息中间件，起到隔离作用，使不同消息中间件的实现细节对应用程序来说是透明的。
  *
  * 原理：
- *  启动时会在RabbitMQ创建一个名为Input的Exchange交换器，
+ *  具体实现要看绑定器，以rabbit为例：消息通道的输入输出目标会映射具体的exchange交换器
+ *      ，对于每个消费组，会为对应的exchange交换器绑定一个Queue队列进行消息收发
  *  定义输出通道需返回MessageChannel接口（定义了向消息通道发送消息的方法）对象；
  *  定义输入通道需返回SubscribableChannel接口（定义了维护消息通道订阅者的方法）对象；
  *
