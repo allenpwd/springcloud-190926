@@ -15,6 +15,21 @@ Zipkin是 Twitter I的一个开源项目,它基于 Google Dapper实现。我们�
 对于每个Span来说,它必须有开始和结束两个节点,通过记录开始Span和结束Span的时间戬,
 就能统计出该Span的时间延迟,除了时间戬记录之外,它还可以包含一些其他元数据,
 比如事件名称、请求信息等。
+- Annotation：它用来及时地记录一个事件的存在。可以理解为一个包含有时间戳的事件标签,
+对于一个HTTP请求来说,在Sleuth中定义了下面4个核心 Annotation来标识一个请求的开始和结束。
+    - cs( Client Send)：记录客户端发起了一个请求,同时它也标识
+了这个HTTP请求的开始。
+    - sr( Server Received)：记录服务端接收到了请求,并准备开始处理它。
+    通过计算sr与cs两个Annotation的时间戳之差,我们可以得到当前HTTP请求的网络延迟。
+    - ss( Server Send)：记录服务端处理完请求后准备发送请求响应信息。
+    通过计算ss与sr两个 Annotation的时间戳之差,我们可以得到当前服务端处理请求的时间消耗。
+    - cr( Client Received)：来记录客户端接收到服务端的回复,同时它也标识了这个HTTP请求的结束。
+通过计算cr与cs两个Annotation的时间戳之差,我们可以得到该HTP请求从客户端发起到接收服务端响应的总时间消耗
+- Binary Annotation：用来对跟踪信息添加一些额外的补充说明,一般以键值对的方式出现。
+比如,在记录HTTP请求接收后执行具体业务逻辑时,此时并没有默认的Annotation来标识该事件状态,
+但是有 Binary Annotation信息对其进行补充。
+
+
 
 ### 相关组件
 - Collector：收集器组件,它主要处理从外部系统发送过来的跟踪信息,将这些信息
@@ -27,7 +42,8 @@ Zipkin是 Twitter I的一个开源项目,它基于 Google Dapper实现。我们�
 又直观地査询和分析跟踪信息
 
 ### 使用步骤
-服务端：收集链路数据，提供UI界面
+#### HTTP方式收集
+##### 服务端：收集链路数据，提供UI界面
 （1）引入依赖
 ```xml
 <!--链路追踪-->
@@ -42,7 +58,7 @@ Zipkin是 Twitter I的一个开源项目,它基于 Google Dapper实现。我们�
 ```
 （2）@EnableZipkinServer注解启动Zipkin Server
 （3）推荐配置服务端口号为9411，自动化配置默认连接的是这个端口
-客户端
+##### 客户端
 （1）引入依赖
 ```xml
 <!--链路追踪-->
@@ -58,9 +74,63 @@ spring:
     base-url: http://localhost:9411
   sleuth:
     sampler:
-      #配置接口全部采样，默认0.1
+      #配置接口全部采样，默认0.1，参考PercentageBasedSampler
       probability: 1.0
 ```
+#### 消息中间件方式收集（以rabbit为例）
+##### 服务端：监听并从消息中间件获取跟踪数据
+（1）引入依赖
+```xml
+<!--针对消息中间件收集的服务端-->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-sleuth-zipkin-stream</artifactId>
+</dependency>
+<!-- 基于spring-cloud-stream实现的rabbit消息中间件绑定器 -->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
+</dependency>
+<dependency>
+    <groupId>io.zipkin.java</groupId>
+    <artifactId>zipkin-autoconfigure-ui</artifactId>
+</dependency>
+```
+（2）@EnableZipkinServer注解启动Zipkin Server
+（3）推荐配置服务端口号为9411，自动化配置默认连接的是这个端口
+（4）配置rabbit参数
+```yaml
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+```
+##### 客户端：数据推送到消息中间件
+（1）引入依赖
+```xml
+<!--链路追踪-->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-sleuth-stream</artifactId>
+</dependency>
+<!-- 基于spring-cloud-stream实现的rabbit消息中间件绑定器 -->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
+</dependency>
+```
+（2）配置rabbit参数
+```yaml
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
+```
+
 
 
 Spring Cloud Sleuth实现了在各个微服务的日志信息中添加跟踪信息的功能。
