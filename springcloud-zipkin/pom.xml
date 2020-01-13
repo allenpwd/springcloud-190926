@@ -26,12 +26,23 @@
         <!--链路追踪-->
         <dependency>
             <groupId>io.zipkin.java</groupId>
-            <artifactId>zipkin-server</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.zipkin.java</groupId>
             <artifactId>zipkin-autoconfigure-ui</artifactId>
         </dependency>
+        <!--HTTP方式收集-->
+        <dependency>
+            <groupId>io.zipkin.java</groupId>
+            <artifactId>zipkin-server</artifactId>
+        </dependency>
+        <!--消息中间件方式收集,2.0.0.RELEASE仓库里没有 -->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.cloud</groupId>-->
+            <!--<artifactId>spring-cloud-sleuth-zipkin-stream</artifactId>-->
+        <!--</dependency>-->
+        <!-- 基于spring-cloud-stream实现的rabbit消息中间件绑定器 -->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.cloud</groupId>-->
+            <!--<artifactId>spring-cloud-starter-stream-rabbit</artifactId>-->
+        <!--</dependency>-->
 
         <!--springcloud config客户端-->
         <dependency>

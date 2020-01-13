@@ -58,10 +58,20 @@
         </dependency>
 
         <!-- 链路追踪支持 -->
+        <!--HTTP方式收集-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-zipkin</artifactId>
+            <artifactId>spring-cloud-sleuth-zipkin</artifactId>
         </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.cloud</groupId>-->
+            <!--<artifactId>spring-cloud-sleuth-stream</artifactId>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash; 基于spring-cloud-stream实现的rabbit消息中间件绑定器 &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>org.springframework.cloud</groupId>-->
+            <!--<artifactId>spring-cloud-starter-stream-rabbit</artifactId>-->
+        <!--</dependency>-->
 
         <!--Spring Boot Admin Client服务监控客户端-->
         <dependency>

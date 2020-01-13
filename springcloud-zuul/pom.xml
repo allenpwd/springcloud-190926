@@ -43,9 +43,10 @@
         </dependency>
 
         <!-- 链路追踪支持 -->
+        <!--HTTP方式收集-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-zipkin</artifactId>
+            <artifactId>spring-cloud-sleuth-zipkin</artifactId>
         </dependency>
 
         <!--Spring Boot Admin Client服务监控客户端-->

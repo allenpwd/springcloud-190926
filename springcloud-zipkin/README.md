@@ -131,7 +131,14 @@ spring:
     password: guest
 ```
 
-
+### zipkin server提供的API接口
+- /api/v2/dependencies：
+- /api/v2/services：
+- /api/v2/traces：
+- /api/v2/trace/{traceIdHex}：
+- /api/v2/spans：
+- ：
+- ：
 
 Spring Cloud Sleuth实现了在各个微服务的日志信息中添加跟踪信息的功能。
 但是,由于日志文件都离散地存储在各个服务实例的文件系统之上,仅仅通过査看日志文件来分析我们的请求链路依然是一件相当麻烦的事,
