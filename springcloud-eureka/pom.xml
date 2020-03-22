@@ -45,6 +45,10 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <!--
+                    这里可以不指定，能自动识别使用了@SpringBootApplication注解并带main入口的类
+                    另一种指定方式是通过配置属性：<start-class>pwd.allen.EurekaMain</start-class>
+                    -->
                     <mainClass>pwd.allen.EurekaMain</mainClass>
                 </configuration>
             </plugin>
