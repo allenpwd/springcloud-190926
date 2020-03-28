@@ -18,7 +18,7 @@ spring:
           search-paths:
             - config
           #存储仓库的本地路径
-#          basedir: C:\Users\Administrator\Desktop\temp
+          basedir: C:\Users\Administrator\Desktop\temp
           #之前gitee报错：com.jcraft.jsch.JSchException: reject HostKey: gitee.com原因不明，后面突然不会了
           strict-host-key-checking: true
         native:
@@ -61,4 +61,4 @@ eureka:
 management:
   endpoint:
     health:
-      show-details: always #是config的ConfigServer端点能在health端点里看到
+      show-details: always #使config的ConfigServer端点能在health端点里看到
