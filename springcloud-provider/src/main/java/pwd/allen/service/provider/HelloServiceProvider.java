@@ -1,5 +1,6 @@
 package pwd.allen.service.provider;
 
+import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCollapser;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
@@ -20,6 +21,7 @@ import java.util.*;
  * @author 门那粒沙
  * @create 2019-09-26 21:34
  **/
+@DefaultProperties(defaultFallback = "globalFallback")
 @RestController
 public class HelloServiceProvider implements HelloService {
 
@@ -29,8 +31,8 @@ public class HelloServiceProvider implements HelloService {
 
     /**
      * 服务聚合
-     * 指定合并请求器，在100毫秒内的请求合并起来发给sayHellos批量查询，结果再拆分给各个请求
-     *
+     * @HystrixCollapser指定合并请求器，在100毫秒内的请求合并起来发给sayHellos批量查询，结果再拆分给各个请求
+     * 注意：@HystrixCollapser和@HystrixCommand不能同时用
      * 问题：scope默认为request，会报空指针，HystrixRequestContext没有初始化，使用hystrix缓存也会这样，暂时设置为GLOBAL绕过这个坑
      *
      * @param name
@@ -64,10 +66,21 @@ public class HelloServiceProvider implements HelloService {
         return list;
     }
 
+    /**
+     * 这里@HystrixCommand没指定fallback属性，会采用@DefaultProperties的defaultFallback指定的fallback方法
+     * 指定hystrix超时时间为1s，默认1s
+     * @param map_param
+     * @return
+     */
+    @HystrixCommand(commandProperties = @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value="1000"))
     @Override
     public User getUser(@RequestBody Map map_param) {
 
-        HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
+        //TODO 报错 暂时注释掉
+        //No thread-bound request found: Are you referring to request attributes outside of an actual web request, or processing a request outside of the originally receiving thread?
+        // If you are actually operating within a web request and still receive this message, your code is probably running outside of DispatcherServlet/DispatcherPortlet:
+        // In this case, use RequestContextListener or RequestContextFilter to expose the current request
+//        HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
 
         //模拟下超时
         try {
@@ -106,5 +119,18 @@ public class HelloServiceProvider implements HelloService {
         ArrayList<String> list = new ArrayList<>();
         list.add(String.format("this is callback for sayHellos,the error is %s, args=%s", e.toString(), names));
         return list;
+    }
+
+    /**
+     * 默认的全局fallback方法，如果@HystrixCommand没有特别指定fallback属性，则使用该默认的fallback方法
+     * 返回值需要是 被降级的方法的返回值 的类型或者子类型，否则报错：Fallback method 'xxx(xxx)' must return: class xxx or its subclass
+     * @param e
+     * @return
+     */
+    public User globalFallback(Throwable e) {
+        e.printStackTrace();
+        User user = new User();
+        user.setName("this is a global fallback:" + e.toString());
+        return user;
     }
 }
