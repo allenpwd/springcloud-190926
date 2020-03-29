@@ -46,10 +46,7 @@ feign:
 #设置HelloService日志级别
 logging:
   level:
-    pwd:
-      allen:
-        service:
-          HelloService: debug
+    pwd.allen.service.HelloService: debug
 
 
 hystrix:
