@@ -14,6 +14,10 @@ import org.springframework.context.annotation.Configuration;
  *      请求失败，被拒绝，超时或熔断时执行降级逻辑。
  *      近实时地监控指标和配置的修改。
  *
+ *      断路器开启的情况：当满足一定的阀值的时候（默认10秒内超过20个请求次数），且当失败率达到一定的时候（默认10秒内超过50%的请求失败）
+ *      断路器开启后所有请求都不会进行转发，而是直接调用降级fallback，一段时间后（休眠时间窗，默认5秒），断路器半开状态，尝试转发请求，如果成功则关闭断路器，否则继续开启，休眠时间窗重新计时。
+ *
+ *
  * 开启方式：
  *  传统的方式，即直接把处理逻辑封装成HystrixCommand或者HystrixObservableCommand，不需要额外处理
  *  feign方式，配置eign.hystrix.enabled=true
