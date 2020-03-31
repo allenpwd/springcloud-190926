@@ -217,12 +217,14 @@ public class HelloController {
                         //测试下第二个调用出错的情况，结果：第一个结果照常返回，第二个返回服务降级的结果
                         user_param.setName("error");
                         user_rel = restTemplate.postForObject("http://HELLOSERVICE/hello/getUser", user_param, User.class);
+                        map_rel = new HashMap<>();
                         map_rel.put("user", user_rel);
                         subscriber.onNext(map_rel);
 
                         //因为前面报错，所以这个不会执行和返回
                         user_param.setName(name + "2");
                         user_rel = restTemplate.postForObject("http://HELLOSERVICE/hello/getUser", user_param, User.class);
+                        map_rel = new HashMap<>();
                         map_rel.put("user", user_rel);
                         subscriber.onNext(map_rel);
 

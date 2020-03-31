@@ -72,7 +72,7 @@ public class HelloServiceProvider implements HelloService {
      * @param map_param
      * @return
      */
-    @HystrixCommand(commandProperties = @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value="1000"))
+//    @HystrixCommand(commandProperties = @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value="1000"))
     @Override
     public User getUser(@RequestBody Map map_param) {
 
@@ -82,17 +82,20 @@ public class HelloServiceProvider implements HelloService {
         // In this case, use RequestContextListener or RequestContextFilter to expose the current request
 //        HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
 
-        //模拟下超时
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-        }
-
         User user = new User();
         user.setAge(18);
         if (map_param.containsKey("name")) {
             String name = (String) map_param.get("name");
-            if ("error".equals(name)) throw new RuntimeException("测试下断路器");
+            if ("error".equals(name)) {
+                throw new RuntimeException("测试下断路器");
+            }
+            else if ("timeout".equals(name)) {
+                //模拟下超时
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                }
+            }
             user.setName(name);
         } else {
             user.setName("奥利给");
