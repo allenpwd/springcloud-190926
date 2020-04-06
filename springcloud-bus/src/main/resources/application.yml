@@ -19,8 +19,8 @@ spring:
         #名称为input的消息通道属性配置
         input:
           #通用属性
-          group: groupA #指定消费组名，主要用于输入通道，保障每个消息只被组内一个实例消费
-          destination: input1 #指定该通道的主题名，默认通道名；如果通道是消费者，可以指定多个（逗号隔开）
+          group: groupA #指定消费组名，主要用于输入通道，保障每个消息只被组内一个实例消费；rabbitmq中对应queue
+          destination: input1 #指定该通道的主题名，默认通道名；如果通道是消费者，可以指定多个（逗号隔开）；rabbitmq中对应exchange
           #为input消息通道单独设置绑定器，可以是绑定器标识，也可以是显式配置方式的别名
           binder: rabbit
         output:
