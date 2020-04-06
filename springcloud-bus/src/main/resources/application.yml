@@ -34,7 +34,7 @@ spring:
 #    stream:
 #      binders:
 #        rabbitA: #指定 显式配置绑定器 的别名
-#          type: rabbit #绑定器类型，名称来自于META-INF/spring.bingders文件中定义的标识
+#          type: rabbit #绑定器类型，名称来自于META-INF/spring.binders文件中定义的标识
 #          environment: #绑定器属性，默认为空
 #            spring:
 #              rabbitmq:

@@ -17,7 +17,7 @@ spring:
         url: http://localhost:7005
 
   rabbitmq:
-    host: 192.168.118.102
+    host: 192.168.118.201
 
 #引入spring-boot-starter-actuator后，注册到eureka的服务可以在euraka页面跳转到info页面
 info:
