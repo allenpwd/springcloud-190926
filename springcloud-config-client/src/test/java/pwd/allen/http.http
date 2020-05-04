@@ -1,0 +1,4 @@
+### 刷新配置
+POST http://localhost:3355/actuator/bus-refresh
+
+###

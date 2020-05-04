@@ -5,7 +5,7 @@ spring:
   application:
     name: config-server
   profiles:
-#    active: native  #让config使用本地文件系统的存储方式来保存配置信息
+    active: native  #让config使用本地文件系统的存储方式来保存配置信息
   cloud:
     config:
       server:
@@ -18,7 +18,7 @@ spring:
           search-paths:
             - config
           #存储仓库的本地路径
-          basedir: C:\Users\Administrator\Desktop\temp
+          basedir: ${user.home}\Desktop\temp
           #之前gitee报错：com.jcraft.jsch.JSchException: reject HostKey: gitee.com原因不明，后面突然不会了
           strict-host-key-checking: true
         native:

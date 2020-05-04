@@ -61,11 +61,11 @@
                 <scope>import</scope>
             </dependency>
 
-            <dependency>
-                <groupId>io.zipkin.java</groupId>
-                <artifactId>zipkin</artifactId>
-                <version>${zipkin.version}</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>io.zipkin.java</groupId>-->
+<!--                <artifactId>zipkin</artifactId>-->
+<!--                <version>${zipkin.version}</version>-->
+<!--            </dependency>-->
             <dependency>
                 <groupId>io.zipkin.java</groupId>
                 <artifactId>zipkin-server</artifactId>

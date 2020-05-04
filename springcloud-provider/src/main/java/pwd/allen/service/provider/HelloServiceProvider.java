@@ -5,17 +5,16 @@ import com.netflix.hystrix.contrib.javanica.annotation.HystrixCollapser;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import pwd.allen.entity.User;
 import pwd.allen.service.HelloService;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author 门那粒沙
@@ -59,7 +58,9 @@ public class HelloServiceProvider implements HelloService {
     public List<String> sayHellos(@RequestBody List<String> names) {
         ArrayList<String> list = new ArrayList<>();
         for (String name : names) {
-            if ("error".equals(name)) throw new RuntimeException("测试下断路器");
+            if ("error".equals(name)) {
+                throw new RuntimeException("测试下断路器");
+            }
             String rel = String.format("hello!%s,this is %s,message=%s", name, this.getClass().getName(), message);
             list.add(rel);
         }

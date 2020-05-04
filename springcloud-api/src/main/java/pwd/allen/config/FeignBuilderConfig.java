@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Scope;
 /**
  * 自定义一个Feign的配置类
  *
- * 使用方式：@FeignClient的configuration属性指定
+ * 使用方式：通过@FeignClient的configuration属性指定
  *
  * @author 门那粒沙
  * @create 2019-12-29 22:45
