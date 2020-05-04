@@ -20,7 +20,7 @@ import java.util.Map;
  * @author 门那粒沙
  * @create 2019-09-26 21:34
  **/
-@DefaultProperties(defaultFallback = "globalFallback")
+@DefaultProperties(defaultFallback = "globalFallback", commandProperties = @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value="1000"))
 @RestController
 public class HelloServiceProvider implements HelloService {
 
@@ -73,7 +73,7 @@ public class HelloServiceProvider implements HelloService {
      * @param map_param
      * @return
      */
-//    @HystrixCommand(commandProperties = @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds",value="1000"))
+    @HystrixCommand //如果这里注释掉的话，这个方法就不会有断路处理
     @Override
     public User getUser(@RequestBody Map map_param) {
 

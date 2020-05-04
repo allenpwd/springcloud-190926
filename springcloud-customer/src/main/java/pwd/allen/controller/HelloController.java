@@ -5,6 +5,7 @@ import com.google.common.collect.Lists;
 import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.netflix.hystrix.contrib.javanica.annotation.ObservableExecutionMode;
 import com.netflix.hystrix.contrib.javanica.cache.annotation.CacheResult;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
@@ -43,6 +44,7 @@ import java.util.Map;
  * @author 门那粒沙
  * @create 2019-09-26 22:46
  **/
+@Slf4j
 @RestController
 public class HelloController {
 
@@ -336,6 +338,9 @@ public class HelloController {
 
     @GetMapping("/bean/{beanName}")
     public Object getBean(@PathVariable String beanName) {
+        log.info(beanName);
+        log.debug(beanName);
+        log.warn(beanName);
         List<Object> list = new ArrayList<>();
         String[] beanDefinitionNames = applicationContext.getBeanDefinitionNames();
         for (String beanDefinitionName : beanDefinitionNames) {

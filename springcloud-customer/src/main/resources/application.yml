@@ -43,11 +43,6 @@ feign:
         connect-timeout: 500
         read-timeout: 5000
 
-#设置HelloService日志级别
-logging:
-  level:
-    pwd.allen.service.HelloService: debug
-
 
 hystrix:
   command:
@@ -65,3 +60,8 @@ spring:
       retry:
         #开启负载均衡的重试机制
         enabled: true
+
+#设置日志级别
+logging:
+  level:
+    pwd.allen.controller: debug   #或者pwd.allen.controller.*
