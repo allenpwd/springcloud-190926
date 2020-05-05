@@ -72,9 +72,11 @@ public class HelloController {
     @GetMapping("/helloFeign/{name}")
     public Map helloFeign(@PathVariable("name") String name, @RequestHeader("User-Agent") String userAgent) {
 
+        //RequestContextHolder里面有两个ThreadLocal保存当前线程下的request
+        //代码：org.springframework.web.servlet.FrameworkServlet.initContextHolders
         HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
 
-        System.out.println("User-Agent:" + userAgent);
+        log.info("User-Agent:{}", userAgent);
 
         HashMap<String, Object> map_rel = new HashMap<>();
         map_rel.put("hello", helloService.sayHello(name));
@@ -94,7 +96,7 @@ public class HelloController {
      * 特点：通过应用名（不区分大小写）获取host和port
      *
      * @HystrixCommand指定熔断器配置
-     *  fallbackMethod：服务降级时回调的方法，需要参数（可以加多个Throwable参数接受错误信息）、返回值一致
+     *  fallbackMethod：服务降级时回调的方法，需要参数（可以加个Throwable参数接受错误信息）、返回值一致
      *  commandKey：命令名，好像默认是方法名
      *  groupKey：命令组名，用于组织统计命令的告警、仪表盘等信息，命令线程的划分默认也是根据组
      *  threadPoolKey：线程池划分名，默认命令组名
