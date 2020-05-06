@@ -88,9 +88,6 @@ management:
           - bus-env
 logging:
   level:
-    org:
-      springframework:
-        cloud:
-          stream: trace
+    org.springframework.cloud.stream: trace
 
 
