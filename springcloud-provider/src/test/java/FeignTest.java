@@ -1,5 +1,6 @@
 import feign.Feign;
 import feign.Logger;
+import feign.hystrix.HystrixFeign;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.ObjectFactory;

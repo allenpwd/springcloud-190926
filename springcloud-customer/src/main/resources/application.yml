@@ -23,6 +23,8 @@ eureka:
 #    appname: hollshit
     #主机名，没有则获取操作系统的主机名
 #    hostname: localhost
+    metadata-map:
+      cluster: customer #设置cluster名字，配合turbine使用
 
 
 #ribbon指定服务配置
@@ -35,7 +37,7 @@ feign:
   hystrix:
     #开启服务熔断器
     enabled: true
-  #feign客户端，可参考配置类FeignClientProperties
+  #feign客户端，可参考配置类FeignClientProperties 设置的源码位置：org.springframework.cloud.openfeign.FeignClientFactoryBean.configureFeign
   client:
     config:
       #配置默认配置

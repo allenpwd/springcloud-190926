@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Configuration;
  *
  * 开启方式：
  *  传统的方式，即直接把处理逻辑封装成HystrixCommand或者HystrixObservableCommand，不需要额外处理
- *  feign方式，配置eign.hystrix.enabled=true
+ *  feign方式，配置feign.hystrix.enabled=true
  *  注解方式，@EnableCircuitBreaker
  *
  * @author lenovo

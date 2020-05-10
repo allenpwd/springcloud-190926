@@ -19,9 +19,12 @@ import java.util.Map;
  * 可以使用Feign自带的注解或者JAX-RS注解，Feign还支持Spring MVC注解（@RequestParam @PathVariable @RequestHeader的value不可省略，因为Feign不会像Spring MVC那样以参数名作为默认值）
  *
  * @FeignClient：绑定接口与服务
- *  value/name：服务名，不区分大写
+ *  value/name：服务名，不区分大写,用于服务发现，当有url时这个属性只是一个名字
+ *  url：url一般用于调试，可以手动指定@FeignClient调用的地址
  *  fallbackFactory：指定服务降级时调用的对应类的工厂类
- *  fallback：指定服务降级时调用的对应类
+ *  fallback：指定服务降级时调用的对应类，指定的类必须实现@FeignClient标记的接口
+ *  configuration: Feign配置类，可以自定义Feign的Encoder、Decoder、LogLevel、Contract
+ *  decode404：当发生http 404错误时，如果该字段位true，会调用decoder进行解码，否则抛出FeignException
  *
  * 绑定Feign的接口中，@RequestParam、@RequestHeader这些可以指定参数名的注解的value不能省略
  *
