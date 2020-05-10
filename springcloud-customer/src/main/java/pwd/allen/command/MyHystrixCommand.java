@@ -6,11 +6,11 @@ import com.netflix.hystrix.strategy.concurrency.HystrixConcurrencyStrategyDefaul
 import org.springframework.web.client.RestTemplate;
 
 /**
- * 使用HystrixCommand封装具体的服务依赖调用逻辑
+ * 使用HystrixCommand封装具体的服务依赖调用逻辑，返回单个结果
  *
  * 使用这个命令执行请求的方式：
- *      同步执行：execute()，返回结果
- *      异步执行：queue()，返回Future<String>，调用该对象的get方法来阻塞获取结果
+ *      同步执行：execute()，从依赖的服务返回一个单一的结果，或发生错误后抛出异常
+ *      异步执行：queue()，返回Future对象，调用该对象的get方法来阻塞获取结果
  *
  * 使用缓存：减轻线程消耗，请求缓存在run和construct执行之前生效
  *      如何开启：重载getCacheKey()方法，返回非null的key

@@ -7,7 +7,10 @@ import rx.Observable;
 import rx.Subscriber;
 
 /**
- * 使用MyHystrixObservableCommand封装具体的服务依赖调用逻辑
+ * 使用MyHystrixObservableCommand封装具体的服务依赖调用逻辑，返回多个结果
+ * 执行请求的方式：
+ *      observe()：返回Observable对象（一个Hot Observable），它代表操作的多个结果
+ *      toObservable()：返回Observable对象（一个Cold Observable）
  *
  * @author 门那粒沙
  * @create 2019-12-28 9:06

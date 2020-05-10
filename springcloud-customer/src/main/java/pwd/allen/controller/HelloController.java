@@ -218,7 +218,7 @@ public class HelloController {
                         map_rel.put("user", user_rel);
                         subscriber.onNext(map_rel);
 
-                        //测试下第二个调用出错的情况，结果：第一个结果照常返回，第二个返回服务降级的结果
+                        //测试下第二个调用出错的情况，结果：第一个结果照常返回，第二个返回服务降级的结果，如果没有报错，看下是不是接口提供者方也做了熔断
                         user_param.setName("error");
                         user_rel = restTemplate.postForObject("http://HELLOSERVICE/hello/getUser", user_param, User.class);
                         map_rel = new HashMap<>();
@@ -240,9 +240,6 @@ public class HelloController {
             }
         });
     }
-
-
-
     /**
      * fallback方法要和被降级的方法在同一个类中；fallback方法的修饰符没有特别要求，public private protected都可
      * fallback方法要和被降级的方法有相同参数，否则报错：fallback method wasn't found
@@ -258,6 +255,7 @@ public class HelloController {
         map_rel.put("error", e.toString());
         return map_rel;
     }
+
 
 
     /**
