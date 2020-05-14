@@ -13,6 +13,7 @@ public class RxjavaTest {
         Observable<String> observable4Str = Observable.<String>unsafeCreate(subscriber -> {
             subscriber.onNext("123");
         });
+        //将传递的数据类型进行转换
         Observable<Integer> observable4Int = observable4Str.map(s -> Integer.parseInt(s));
         observable4Int.subscribe(new Observer<Integer>() {
             @Override
