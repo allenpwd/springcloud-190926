@@ -73,7 +73,7 @@ public class HelloController {
     public Map helloFeign(@PathVariable("name") String name, @RequestHeader("User-Agent") String userAgent) {
 
         //RequestContextHolder里面有两个ThreadLocal保存当前线程下的request
-        //代码：org.springframework.web.servlet.FrameworkServlet.initContextHolders
+        //代码：org.springframework.web.servlet.FrameworkServlet#initContextHolders
         HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.currentRequestAttributes())).getRequest();
 
         log.info("User-Agent:{}", userAgent);

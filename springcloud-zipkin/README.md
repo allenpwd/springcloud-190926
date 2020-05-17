@@ -97,7 +97,9 @@ spring:
 </dependency>
 ```
 （2）@EnableZipkinServer注解启动Zipkin Server
+
 （3）推荐配置服务端口号为9411，自动化配置默认连接的是这个端口
+
 （4）配置rabbit参数
 ```yaml
 spring:

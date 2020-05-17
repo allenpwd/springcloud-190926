@@ -34,7 +34,7 @@ public class MyHystrixCommand extends HystrixCommand<String> {
                         .withExecutionIsolationStrategy(HystrixCommandProperties.ExecutionIsolationStrategy.THREAD)//设置执行的隔离策略
                         .withExecutionTimeoutEnabled(true)//是否开启执行超时处理
                         .withExecutionTimeoutInMilliseconds(1000)//执行超时时间，默认1000毫秒
-                        .withExecutionIsolationSemaphoreMaxConcurrentRequests(10)//隔离策略使用信号量时最大并发请求量
+//                        .withExecutionIsolationSemaphoreMaxConcurrentRequests(10)//隔离策略使用信号量时最大并发请求量
                         .withFallbackEnabled(true)//是否启用服务降级
                         .withCircuitBreakerRequestVolumeThreshold(10)//至少有10个请求，熔断器才进行错误率的计算
                         .withCircuitBreakerSleepWindowInMilliseconds(5000)//熔断器中断请求5秒后会进入半打开状态,放部分流量过去重试

@@ -26,7 +26,7 @@ spring:
         output:
           group: group1
           destination: output1
-      #指定默认绑定器，当引入多个绑定器时需要指定，名称来自于META-INF/spring.bingders文件中定义的标识
+      #指定默认绑定器，当引入多个绑定器时需要指定，名称来自于META-INF/spring.binders文件中定义的标识
       default-binder: rabbit
 
 #spring:
