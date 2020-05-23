@@ -24,7 +24,7 @@
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
 
-        <!--ribbon负载均衡客户端 来 服务消费，spring-cloud-starter-netflix-eureka-client有依赖-->
+        <!--ribbon负载均衡客户端 来 服务消费，spring-cloud-starter-netflix-eureka-client有依赖它-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
