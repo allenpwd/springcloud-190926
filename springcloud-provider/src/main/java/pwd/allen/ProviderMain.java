@@ -17,7 +17,7 @@ import org.springframework.cloud.netflix.eureka.EnableEurekaClient;
 //@SpringBootApplication
 //@EnableDiscoveryClient
 //@EnableCircuitBreaker   //开启断路器
-@SpringCloudApplication   //这个注解相当于上面三个注解？
+@SpringCloudApplication   //这个注解相当于上面三个注解
 public class ProviderMain {
 
     public static void main(String[] args) {
